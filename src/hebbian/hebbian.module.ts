@@ -1,9 +1,8 @@
 import { Module } from '@nestjs/common';
-import { HebbianService } from './hebbian.service';
-import { HebbianController } from './hebbian.controller';
+import { HebbianService } from './hebbian.service.js';
+import { HebbianGateway } from './hebbian.gateway.js';
 
 @Module({
-  controllers: [HebbianController],
-  providers: [HebbianService],
+  providers: [HebbianService, HebbianGateway],
 })
 export class HebbianModule {}

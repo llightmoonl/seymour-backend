@@ -1,9 +1,13 @@
 import { Injectable } from '@nestjs/common';
-import { GenerateWeightDto } from './dto/generate-weight.dto';
-import { LearningNeuroDto } from './dto/learning-neuro.dto';
+import { GenerateWeightDto } from './dto/generate-weight.dto.js';
+import { LearningNeuroDto } from './dto/learning-neuro.dto.js';
+import { Prisma } from '../../prisma/src/generated/prisma/client.js';
 
 @Injectable()
 export class HebbianService {
+  async create(data: Prisma) {
+
+  }
   copyWeight(w: number[][]) {
     return w.map((row) => [...row]);
   }

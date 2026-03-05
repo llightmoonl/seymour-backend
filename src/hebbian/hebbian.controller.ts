@@ -1,19 +1,12 @@
 import { Controller, Post, Body } from '@nestjs/common';
-import { HebbianService } from './hebbian.service';
-import { GenerateWeightDto } from './dto/generate-weight.dto';
-import { LearningNeuroDto } from './dto/learning-neuro.dto';
+import { HebbianService } from './hebbian.service.js';
 
-@Controller('hebbian')
+@Controller('research')
 export class HebbianController {
-  constructor(private readonly hebbianService: HebbianService) {}
+  constructor(private readonly HebbianService: HebbianService) {}
 
   @Post()
-  generateWeight(@Body() generateWeightDto: GenerateWeightDto) {
-    return this.hebbianService.generateWeight(generateWeightDto);
-  }
-
-  @Post()
-  learningNeuro(@Body() learningNeuroDto: LearningNeuroDto) {
-    return this.hebbianService.learningNeuro(learningNeuroDto);
+  create(@Body() createResearchDto: CreateResearchDto) {
+    return this.HebbianService.create(createResearchDto);
   }
 }

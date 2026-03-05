@@ -1,0 +1,18 @@
+model Algorithm {
+  id         Int         @id @default(autoincrement())
+  parameters Parameter[]
+  research   Research?
+
+  typeId Int
+  type   AlgorithmType @relation(fields: [typeId], references: [id])
+
+  @@map("algorithm")
+}
+
+model AlgorithmType {
+  id         Int @id @default(autoincrement())
+  type       String
+  algorithms Algorithm[]
+
+  @@map("algorithmType")
+}

@@ -1,0 +1,20 @@
+generator client {
+  provider = "prisma-client"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model Research {
+  id        String        @id @default(uuid())
+  title     String
+  type        Int
+  algorithmId Int         @unique @map("algorithm_id")
+  algorithm   Algorithm?   @relation(fields: [algorithmId], references: [id])
+  createdAt DateTime      @default(now()) @map("created_at")
+  updatedAt DateTime      @updatedAt @map("updated_at")
+
+  @@map("research")
+}

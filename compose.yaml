@@ -1,0 +1,25 @@
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    labels:
+      - project=seymour-backend
+    ports:
+      - '${APP_PORT:-4000}:4000'
+    restart: unless-stopped
+    volumes:
+        - .:/backend
+        - /backend/node_modules
+  postgres:
+    container_name: postgres
+    image: postgres:latest
+    restart: always
+    environment:
+      - POSTGRES_USER=${POSTGRES_USER}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+    ports:
+      - 5433:5432
+    volumes:
+      - .:/backend/data
+
