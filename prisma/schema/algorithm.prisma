@@ -1,18 +1,12 @@
 model Algorithm {
-  id         Int         @id @default(autoincrement())
-  parameters Parameter[]
-  research   Research?
-
-  typeId Int
-  type   AlgorithmType @relation(fields: [typeId], references: [id])
+  id       Int       @id @default(autoincrement())
+  research Research?
+  x        Json?
+  w        Json
+  y        Int
+  s        Int
+  neuron   Int
+  epoch    Int
 
   @@map("algorithm")
-}
-
-model AlgorithmType {
-  id         Int @id @default(autoincrement())
-  type       String
-  algorithms Algorithm[]
-
-  @@map("algorithmType")
 }

@@ -1,12 +1,13 @@
-import { Controller, Post, Body } from '@nestjs/common';
-import { HebbianService } from './hebbian.service.js';
+import { Controller, Put, Body } from '@nestjs/common';
+import {HebbianService} from "./hebbian.service.js";
+import {GenerateDataDto} from "./dto/generate-data.dto.js";
 
-@Controller('research')
+@Controller('hebbian')
 export class HebbianController {
-  constructor(private readonly HebbianService: HebbianService) {}
+  constructor(private readonly hebbianService: HebbianService) {}
 
-  @Post()
-  create(@Body() createResearchDto: CreateResearchDto) {
-    return this.HebbianService.create(createResearchDto);
+  @Put('/generateData')
+  create(@Body() generateDataDto: GenerateDataDto) {
+    return this.hebbianService.generateData(generateDataDto);
   }
 }
