@@ -1,4 +1,4 @@
 export class GenerateDataDto {
-    id: string;
-    x: number[][][];
+  id: string;
+  x: number[][][];
 }

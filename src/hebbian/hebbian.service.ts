@@ -1,25 +1,25 @@
 import { Injectable } from '@nestjs/common';
 import { GenerateWeightDto, LearningNeuroDto } from './dto/index.js';
-import { PrismaService } from "../prisma/prisma.service.js";
-import { GenerateDataDto } from "./dto/generate-data.dto.js";
+import { PrismaService } from '../prisma/prisma.service.js';
+import { GenerateDataDto } from './dto/generate-data.dto.js';
 
 @Injectable()
 export class HebbianService {
   constructor(private prisma: PrismaService) {}
 
   generateData(dto: GenerateDataDto) {
-      const { id, x } = dto;
+    const { id, x } = dto;
 
-      return this.prisma.research.update({
-          where: {id},
-          data: {
-              algorithm: {
-                  update: {
-                      x
-                  }
-              }
-          }
-      })
+    return this.prisma.research.update({
+      where: { id },
+      data: {
+        algorithm: {
+          update: {
+            x,
+          },
+        },
+      },
+    });
   }
 
   copyWeight(w: number[][]) {

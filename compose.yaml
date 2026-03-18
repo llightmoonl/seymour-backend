@@ -9,8 +9,8 @@ services:
       - '${APP_PORT:-4000}:4000'
     restart: unless-stopped
     volumes:
-        - .:/backend
-        - /backend/node_modules
+      - .:/backend
+      - /backend/node_modules
   postgres:
     container_name: postgres
     image: postgres:latest
@@ -22,4 +22,3 @@ services:
       - 5433:5432
     volumes:
       - .:/backend/data
-

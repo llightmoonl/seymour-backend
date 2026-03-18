@@ -1,4 +1,4 @@
 export class CreateResearchDto {
-    title: string;
-    type: number;
+  title: string;
+  type: number;
 }

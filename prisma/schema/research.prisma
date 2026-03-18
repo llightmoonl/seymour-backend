@@ -1,5 +1,5 @@
 model Research {
-  id          String     @id @default(uuid())
+  uuid        String     @id @default(uuid())
   title       String
   type        Int
   algorithmId Int        @unique @map("algorithm_id")
