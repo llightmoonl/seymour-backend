@@ -3,6 +3,8 @@ model Algorithm {
   research Research?
   x        Json?
   w        Json
+  i        Int
+  j        Int
   y        Int
   s        Int
   neuron   Int

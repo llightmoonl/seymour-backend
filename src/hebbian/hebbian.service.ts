@@ -7,18 +7,21 @@ import { GenerateDataDto } from './dto/generate-data.dto.js';
 export class HebbianService {
   constructor(private prisma: PrismaService) {}
 
-  generateData(dto: GenerateDataDto) {
+  async generateData(dto: GenerateDataDto) {
     const { id, x } = dto;
+    const algorithm = await this.prisma.algorithm.findUnique({ where: { id } });
 
-    return this.prisma.research.update({
+    if (!algorithm) {
+      throw new Error(`Algorithm with id ${id} not found`);
+    }
+
+    if (algorithm.x !== null) {
+      throw new Error('You have already filled in the X field.');
+    }
+
+    return this.prisma.algorithm.update({
       where: { id },
-      data: {
-        algorithm: {
-          update: {
-            x,
-          },
-        },
-      },
+      data: { x },
     });
   }
 
@@ -45,27 +48,24 @@ export class HebbianService {
     return newW;
   }
 
-  activation(x: number[][], w: number[][]) {
-    let s = 0;
-    for (let i = 0; i < x.length; i++) {
-      for (let j = 0; j < x[i].length; j++) {
-        s += x[i][j] * w[i][j];
-      }
-    }
-
-    return s;
+  activation(xElement: number, wElement: number, s: number) {
+    return s + xElement * wElement;
   }
 
   generateWeight(dto: GenerateWeightDto) {
     const { x, w, number, neuron } = dto;
+    let error = 0; // pseudo
+    let epoch = 0; // pseudo
     let newW = this.copyWeight(w);
-    let s = this.activation(x, newW);
-    let y = s >= neuron ? 1 : 0;
+    let s = this.activation(x[i][j], w[j], s);
 
-    if (y !== number) {
-      newW = this.algorithmHebbian(x, y, newW);
-      s = this.activation(x, newW);
-      y = s >= neuron ? 1 : 0;
+    if (j <= 15) {
+      let y = s >= neuron ? 1 : 0;
+
+      if (y !== number) {
+        error++;
+        newW = this.algorithmHebbian(x, y, newW);
+      }
 
       return {
         x: x,
@@ -78,15 +78,10 @@ export class HebbianService {
       };
     }
 
-    return {
-      x: this.defaultValue(),
-      y: y,
-      w: newW,
-      s: s,
-      neuron: neuron,
-      isLearning: false,
-      isHebbian: false,
-    };
+    if(error) {
+      error = 0;
+      epoch++;
+    }
   }
 
   learningNeuro(dto: LearningNeuroDto) {

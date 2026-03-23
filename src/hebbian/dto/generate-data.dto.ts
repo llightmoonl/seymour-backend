@@ -1,4 +1,9 @@
+import { IsInt, IsArray} from 'class-validator';
+
 export class GenerateDataDto {
-  id: string;
+  @IsInt()
+  id: number;
+
+  @IsArray()
   x: number[][][];
 }
