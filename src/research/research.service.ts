@@ -13,13 +13,15 @@ export class ResearchService {
       ...data,
       algorithm: {
         create: {
-          w: Array.from({ length: 5 }, () =>
-            Array.from({ length: 3 }, () => random(1, 3)),
-          ),
-          y: 0,
+          w: Array.from({ length: 15 }, () => random(1, 3)),
+          y_pred: 0,
+          i: 0,
+          j: 0,
           neuron: random(1, 3),
           s: 0,
           epoch: 0,
+          error: 0,
+          isTrained: false,
         },
       },
     };

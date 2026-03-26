@@ -1,48 +1,41 @@
 import { Injectable } from '@nestjs/common';
-import { GenerateWeightDto, LearningNeuroDto } from './dto/index.js';
+import {
+  GenerateWeightDto,
+  DataDto,
+  GenerateDataDto,
+  RecognitionDto,
+  FindUniqueDto,
+} from './dto/index.js';
 import { PrismaService } from '../prisma/prisma.service.js';
-import { GenerateDataDto } from './dto/generate-data.dto.js';
+import { InputJsonValue } from '@prisma/client/runtime/client';
 
 @Injectable()
 export class HebbianService {
   constructor(private prisma: PrismaService) {}
 
   async generateData(dto: GenerateDataDto) {
-    const { id, x } = dto;
-    const algorithm = await this.prisma.algorithm.findUnique({ where: { id } });
+    const { id, data } = dto;
 
-    if (!algorithm) {
-      throw new Error(`Algorithm with id ${id} not found`);
-    }
-
-    if (algorithm.x !== null) {
-      throw new Error('You have already filled in the X field.');
-    }
-
-    return this.prisma.algorithm.update({
+    return this.prisma.research.update({
       where: { id },
-      data: { x },
+      data: {
+        algorithm: {
+          update: {
+            data: data as unknown as InputJsonValue,
+          },
+        },
+      },
     });
   }
 
-  copyWeight(w: number[][]) {
-    return w.map((row) => [...row]);
-  }
-
-  defaultValue() {
-    return Array.from({ length: 5 }, () => Array.from({ length: 3 }, () => 0));
-  }
-
-  algorithmHebbian(x: number[][], y: number, w: number[][]) {
-    const newW = this.copyWeight(w);
+  algorithmHebbian(x: number[], yPred: number, yTrue: number, w: number[]) {
+    const newW = [...w];
 
     for (let i = 0; i < x.length; i++) {
-      for (let j = 0; j < x[i].length; j++) {
-        if (y === 0) {
-          newW[i][j] += x[i][j];
-        } else {
-          newW[i][j] -= x[i][j];
-        }
+      if (yTrue === 1 && yPred === 0) {
+        newW[i] += x[i];
+      } else if (yTrue === 0 && yPred === 1) {
+        newW[i] -= x[i];
       }
     }
     return newW;
@@ -52,95 +45,124 @@ export class HebbianService {
     return s + xElement * wElement;
   }
 
-  generateWeight(dto: GenerateWeightDto) {
-    const { x, w, number, neuron } = dto;
-    let error = 0; // pseudo
-    let epoch = 0; // pseudo
-    let newW = this.copyWeight(w);
-    let s = this.activation(x[i][j], w[j], s);
-
-    if (j <= 15) {
-      let y = s >= neuron ? 1 : 0;
-
-      if (y !== number) {
-        error++;
-        newW = this.algorithmHebbian(x, y, newW);
-      }
-
-      return {
-        x: x,
-        y: y,
-        w: newW,
-        s: s,
-        neuron: neuron,
-        isLearning: true,
-        isHebbian: true,
-      };
-    }
-
-    if(error) {
-      error = 0;
-      epoch++;
-    }
+  calculateActivation(x: number[], w: number[]) {
+    return x.reduce((acc, val, i) => acc + val * w[i], 0);
   }
 
-  learningNeuro(dto: LearningNeuroDto) {
-    const { x, w, number, neuron, learningSets, step, isHebbian } = dto;
+  async generateWeight(dto: GenerateWeightDto) {
+    const { id } = dto;
 
-    let newW = this.copyWeight(w);
-    let s = this.activation(x, newW);
-    let y = s >= neuron ? 1 : 0;
+    const research = await this.prisma.research.findUnique({
+      where: { id },
+      include: {
+        algorithm: true,
+      },
+    });
 
-    if (y !== number) {
-      newW = this.algorithmHebbian(x, y, newW);
-      s = this.activation(x, newW);
-      y = s >= neuron ? 1 : 0;
+    const algorithm = research?.algorithm;
 
-      return {
-        x: x,
-        y: y,
-        w: newW,
-        s: s,
-        neuron: neuron,
-        isLearning: true,
-        isHebbian: true,
-      };
+    if (!algorithm) throw new Error(`Algorithm with ID ${id} not found`);
+
+    const { data, w, neuron } = algorithm;
+    let { i, j, y_pred, s, epoch, error, isTrained } = algorithm;
+
+    if (!data) throw new Error(`No data found for algorithm ${id}.`);
+
+    const item = data[i] as DataDto;
+    const x = item?.x;
+    const y_true = item?.y_true;
+
+    let newW = [...(w as number[])];
+
+    if (!isTrained) {
+      s = this.activation(x[j], newW[j], s);
+
+      j++;
+      if (j === 15) {
+        j = 0;
+        y_pred = s >= neuron ? 1 : 0;
+
+        if (y_pred !== y_true) {
+          error++;
+          newW = this.algorithmHebbian(x, y_pred, y_true, newW);
+        }
+
+        s = 0;
+
+        if (i === 9) {
+          i = 0;
+
+          if (error) {
+            error = 0;
+            epoch++;
+          } else {
+            isTrained = true;
+          }
+        } else {
+          i++;
+        }
+      }
     }
 
-    if (learningSets.length > 1 && learningSets.length !== step && isHebbian) {
-      let checkHebbian = false;
-      s = this.activation(learningSets[step].x, newW);
-      y = s >= neuron ? 1 : 0;
-
-      if (y !== learningSets[step].number) {
-        newW = this.algorithmHebbian(learningSets[step].x, y, newW);
-        checkHebbian = true;
-      }
-
-      const response = {
-        x: x,
-        y: y,
-        w: newW,
-        s: s,
-        neuron: neuron,
-        step: step,
-        isLearning: true,
-      };
-
-      if (checkHebbian) {
-        response.step = 0;
-      }
-    }
+    await this.prisma.research.update({
+      where: { id },
+      data: {
+        algorithm: {
+          update: {
+            data: { w: newW, i, j, s, y_pred, epoch, error, isTrained },
+          },
+        },
+      },
+    });
 
     return {
-      x: x,
-      y: y,
       w: newW,
-      s: s,
-      neuron: neuron,
-      step: step,
-      isLearning: false,
-      isHebbian: false,
+      i,
+      j,
+      s,
+      y_pred,
+      y_true,
+      epoch,
+      error,
+      isTrained,
     };
+  }
+
+  async recognition(dto: RecognitionDto) {
+    const { x, id } = dto;
+    const research = await this.prisma.research.findUnique({
+      where: { id },
+      include: {
+        algorithm: true,
+      },
+    });
+
+    const algorithm = research?.algorithm;
+
+    if (!algorithm) throw new Error(`Algorithm with id ${id} not found`);
+
+    const { w, neuron } = algorithm;
+    const newW = [...(w as number[])];
+    return {
+      result:
+        this.calculateActivation(x, newW) >= neuron
+          ? 'Число нечетное'
+          : 'Число четное',
+    };
+  }
+
+  async findUnique(dto: FindUniqueDto) {
+    const { id } = dto;
+
+    const research = await this.prisma.research.findUnique({
+      where: { id },
+      include: {
+        algorithm: true,
+      },
+    });
+
+    if (!research) throw new Error(`Research with ID ${id} not found`);
+
+    return research.algorithm;
   }
 }

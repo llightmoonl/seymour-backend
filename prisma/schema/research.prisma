@@ -1,11 +1,11 @@
 model Research {
-  uuid        String     @id @default(uuid())
+  id          String    @id @default(uuid())
   title       String
   type        Int
-  algorithmId Int        @unique @map("algorithm_id")
+  algorithmId Int       @unique @map("algorithm_id")
+  createdAt   DateTime  @default(now()) @map("created_at")
+  updatedAt   DateTime  @updatedAt @map("updated_at")
   algorithm   Algorithm? @relation(fields: [algorithmId], references: [id])
-  createdAt   DateTime   @default(now()) @map("created_at")
-  updatedAt   DateTime   @updatedAt @map("updated_at")
 
   @@map("research")
 }

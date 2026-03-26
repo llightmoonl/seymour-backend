@@ -1,14 +1,16 @@
 model Algorithm {
   id       Int       @id @default(autoincrement())
-  research Research?
-  x        Json?
+  data     Json?
   w        Json
   i        Int
   j        Int
-  y        Int
+  y_pred   Int
   s        Int
   neuron   Int
   epoch    Int
+  error    Int
+  isTrained Boolean
+  research Research?
 
   @@map("algorithm")
 }

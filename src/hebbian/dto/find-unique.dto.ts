@@ -1,6 +1,6 @@
 import { IsString } from 'class-validator';
 
-export class GenerateWeightDto {
+export class FindUniqueDto {
   @IsString()
   id: string;
 }

@@ -1,7 +1,6 @@
 import { Controller, Post, Query, Body, Get } from '@nestjs/common';
 import { ResearchService } from './research.service.js';
-import { CreateResearchDto } from './dto/create-research.dto.js';
-import { FindAllResearchDto } from './dto/find-all-research.dto.js';
+import { CreateResearchDto, FindAllResearchDto } from './dto/index.js';
 
 @Controller('research')
 export class ResearchController {
