@@ -2,10 +2,24 @@ model Research {
   id          String    @id @default(uuid())
   title       String
   type        Int
-  algorithmId Int       @unique @map("algorithm_id")
+  algorithmId Int?       @unique @map("algorithm_id")
+  algorithmDeltaId Int?  @unique @map("algorithm_delta_id")
   createdAt   DateTime  @default(now()) @map("created_at")
   updatedAt   DateTime  @updatedAt @map("updated_at")
   algorithm   Algorithm? @relation(fields: [algorithmId], references: [id])
+  algorithmDelta AlgorithmDelta? @relation(fields: [algorithmDeltaId], references: [id])
+  tabs        ResearchTab[]
 
   @@map("research")
+}
+
+model ResearchTab {
+  id         String    @id @default(uuid())
+  researchId String    @map("research_id")
+  key        String
+  completed  Boolean   @default(false)
+  research   Research  @relation(fields: [researchId], references: [id])
+
+  @@unique([researchId, key])
+  @@map("researchTab")
 }

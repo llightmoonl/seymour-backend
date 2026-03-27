@@ -14,3 +14,22 @@ model Algorithm {
 
   @@map("algorithm")
 }
+
+model AlgorithmDelta {
+  id        Int      @id @default(autoincrement())
+  data      Json?
+  w         Json
+  i         Int
+  j         Int
+  k         Int
+  y_pred    Json
+  s         Json
+  epsilon   Json
+  eta       Float
+  epoch     Int
+  error     Int
+  isTrained Boolean
+  research  Research?
+
+  @@map("algorithm_delta")
+}

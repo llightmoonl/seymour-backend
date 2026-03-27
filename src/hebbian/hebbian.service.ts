@@ -143,11 +143,21 @@ export class HebbianService {
 
     const { w, neuron } = algorithm;
     const newW = [...(w as number[])];
+    const newS = this.calculateActivation(x, newW);
+
+    await this.prisma.research.update({
+      where: { id },
+      data: {
+        algorithm: {
+          update: {
+            data: { s: newS },
+          },
+        },
+      },
+    });
+
     return {
-      result:
-        this.calculateActivation(x, newW) >= neuron
-          ? 'Число нечетное'
-          : 'Число четное',
+      result: this.calculateActivation(x, newW) >= neuron ? 1 : 0,
     };
   }
 
