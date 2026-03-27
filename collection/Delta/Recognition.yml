@@ -1,0 +1,22 @@
+info:
+  name: Recognition
+  type: http
+  seq: 4
+
+http:
+  method: POST
+  url: "{{url}}/delta/recognition"
+  body:
+    type: json
+    data: |-
+      {
+        "id": "0ff0d55f-1c7b-4d51-b5fe-aed2a73fc162",
+        "x": [1, 0, 0, 0, 1, 0, 1, 1, 1, 0, 0, 1, 1, 1, 1]
+      }
+  auth: inherit
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5

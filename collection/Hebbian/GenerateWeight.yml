@@ -1,0 +1,15 @@
+info:
+  name: GenerateWeight
+  type: websocket
+  seq: 2
+
+websocket:
+  url: "{{url_ws}}/hebbian/socket.io/?EIO=4&transport=websocket"
+  message:
+    type: text
+    data: '42["generateWeight", {"id": "1"}]'
+  auth: inherit
+
+settings:
+  timeout: 0
+  keepAliveInterval: 0

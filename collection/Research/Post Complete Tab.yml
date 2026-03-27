@@ -1,0 +1,21 @@
+info:
+  name: Post Complete Tab
+  type: http
+  seq: 4
+
+http:
+  method: POST
+  url: "{{url}}/research/eb522035-c429-49e3-b818-11676327e539/progress/complete"
+  body:
+    type: json
+    data: |-
+      {
+        "tab": "generation"
+      }
+  auth: inherit
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5

@@ -1,0 +1,22 @@
+info:
+  name: Recognition
+  type: http
+  seq: 4
+
+http:
+  method: POST
+  url: "{{url}}/hebbian/recognition"
+  body:
+    type: json
+    data: |-
+      {
+        "id": "cd277e7f-34ae-498a-a6a3-932de15cfc7c",
+        "x": [1, 1, 1, 1, 0, 1, 1, 0, 1, 1, 0, 1, 1, 1, 1] 
+      }
+  auth: inherit
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5

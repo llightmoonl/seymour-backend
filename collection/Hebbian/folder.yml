@@ -1,0 +1,7 @@
+info:
+  name: Hebbian
+  type: folder
+  seq: 1
+
+request:
+  auth: inherit

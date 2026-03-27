@@ -1,0 +1,26 @@
+info:
+  name: GenerateData
+  type: http
+  seq: 1
+
+http:
+  method: PUT
+  url: "{{url}}/delta/generateData"
+  body:
+    type: json
+    data: |-
+      {
+        "id": "26d64b24-cf94-419a-a61c-7a0f1a8419c5",
+        "data": [
+          {"y_true": [1, 0, 0], "x": [0, 1, 0, 1, 0, 1, 1, 1, 1, 1, 0, 1, 1, 0, 1]},
+          {"y_true": [0, 1, 0], "x": [1, 0, 0, 0, 1, 0, 1, 1, 1, 0, 0, 1, 1, 1, 1]},
+          {"y_true": [0, 0, 1], "x": [0, 1, 0, 1, 0, 0, 1, 0, 0, 1, 0, 0, 0, 1, 1]}
+        ]
+      }
+  auth: inherit
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5

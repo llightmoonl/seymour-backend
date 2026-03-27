@@ -1,0 +1,21 @@
+info:
+  name: GenerateWeightHTTP
+  type: http
+  seq: 3
+
+http:
+  method: PUT
+  url: "{{url}}/delta/generateWeight"
+  body:
+    type: json
+    data: |-
+      {
+        "id": "c8deaceb-ecca-4eb3-9d6f-c35f4abaa0ff"
+      }
+  auth: inherit
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5

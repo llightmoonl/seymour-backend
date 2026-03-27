@@ -1,0 +1,6 @@
+name: SERVER
+variables:
+  - name: url
+    value: http://localhost:4000
+  - name: url_ws
+    value: ws://localhost:3002

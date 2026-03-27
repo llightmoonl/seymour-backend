@@ -1,0 +1,19 @@
+info:
+  name: findUnique
+  type: http
+  seq: 5
+
+http:
+  method: GET
+  url: "{{url}}/hebbian?id=d179f015-e019-43ab-82d0-826a939aed04"
+  params:
+    - name: id
+      value: d179f015-e019-43ab-82d0-826a939aed04
+      type: query
+  auth: inherit
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5
