@@ -170,12 +170,6 @@ export class DeltaService {
     const s = this.calculateActivation(x, w);
     const y_pred = s.map((si) => (si >= 0 ? 1 : 0));
 
-    let result = 'Ошибка';
-
-    if (y_pred[0] === 1) result = 'Буква A';
-    else if (y_pred[1] === 1) result = 'Буква B';
-    else if (y_pred[2] === 1) result = 'Буква C';
-
     await this.prisma.research.update({
       where: { id },
       data: {
@@ -187,7 +181,7 @@ export class DeltaService {
       },
     });
 
-    return { result, y_pred, s };
+    return { y_pred, s };
   }
 
   async findUnique(dto: FindUniqueDto) {
