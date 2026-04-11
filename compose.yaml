@@ -7,18 +7,42 @@ services:
       - project=seymour-backend
     ports:
       - '${APP_PORT:-4000}:4000'
+    depends_on:
+      db:
+        condition: service_healthy
     restart: unless-stopped
+    environment:
+      - DATABASE_URL=postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@db:5432/${POSTGRES_DB}?schema=public
+    env_file:
+      - .env
     volumes:
       - .:/backend
-      - /backend/node_modules
-  postgres:
+      - node_modules:/backend/node_modules
+    networks:
+      - seymour_app
+
+  db:
     container_name: postgres
-    image: postgres:latest
+    image: postgres:18
     restart: always
     environment:
       - POSTGRES_USER=${POSTGRES_USER}
       - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+      - POSTGRES_DB=${POSTGRES_DB}
     ports:
       - 5433:5432
     volumes:
-      - .:/backend/data
+      - postgres_data:/var/lib/postgresql
+    networks:
+      - seymour_app
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready -U ${POSTGRES_USER} -d ${POSTGRES_DB}" ]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+volumes:
+  postgres_data:
+  node_modules:
+networks:
+  seymour_app:
