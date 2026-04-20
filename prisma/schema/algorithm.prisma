@@ -6,6 +6,7 @@ model Algorithm {
   j        Int
   y_pred   Int
   s        Int
+  correction String?
   neuron   Int
   epoch    Int
   error    Int

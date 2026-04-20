@@ -30,15 +30,18 @@ export class HebbianService {
 
   algorithmHebbian(x: number[], yPred: number, yTrue: number, w: number[]) {
     const newW = [...w];
+    let correction: 'plus' | 'minus' | 'none' = 'none';
 
     for (let i = 0; i < x.length; i++) {
       if (yTrue === 1 && yPred === 0) {
         newW[i] += x[i];
+        correction = 'plus';
       } else if (yTrue === 0 && yPred === 1) {
         newW[i] -= x[i];
+        correction = 'minus';
       }
     }
-    return newW;
+    return { newW, correction };
   }
 
   activation(xElement: number, wElement: number, s: number) {
@@ -73,6 +76,7 @@ export class HebbianService {
     const y_true = item?.y_true;
 
     let newW = [...(w as number[])];
+    let correction = 'none';
 
     if (!isTrained) {
       s = this.activation(x[j], newW[j], s);
@@ -84,7 +88,9 @@ export class HebbianService {
 
         if (y_pred !== y_true) {
           error++;
-          newW = this.algorithmHebbian(x, y_pred, y_true, newW);
+          const result = this.algorithmHebbian(x, y_pred, y_true, newW);
+          newW = result.newW;
+          correction = result.correction;
         }
 
         s = 0;
@@ -109,7 +115,17 @@ export class HebbianService {
       data: {
         algorithm: {
           update: {
-            data: { w: newW, i, j, s, y_pred, epoch, error, isTrained },
+            data: {
+              w: newW,
+              i,
+              j,
+              s,
+              y_pred,
+              epoch,
+              error,
+              isTrained,
+              correction: correction,
+            },
           },
         },
       },
@@ -125,6 +141,7 @@ export class HebbianService {
       epoch,
       error,
       isTrained,
+      correction,
     };
   }
 

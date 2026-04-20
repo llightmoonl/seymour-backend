@@ -46,6 +46,7 @@ export class ResearchService {
                 epoch: 0,
                 error: 0,
                 isTrained: false,
+                correction: 'none',
               },
             },
           }),
