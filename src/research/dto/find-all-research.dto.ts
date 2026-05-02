@@ -1,4 +1,4 @@
-import {IsInt, IsString} from 'class-validator';
+import { IsInt, IsOptional, IsString } from 'class-validator';
 import { Type } from 'class-transformer';
 
 export class FindAllResearchDto {
@@ -10,6 +10,7 @@ export class FindAllResearchDto {
   @IsInt()
   limit: number;
 
+  @IsOptional()
   @IsString()
   search?: string;
 }
