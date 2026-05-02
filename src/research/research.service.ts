@@ -55,13 +55,19 @@ export class ResearchService {
   }
 
   async findAll(dto: FindAllResearchDto) {
-    const { page, limit } = dto;
+    const { page, limit, search } = dto;
+    const where =
+        search ? { title: { contains: search, mode: 'insensitive' as const } } : {};
     const [research, totalCount] = await this.prisma.$transaction([
       this.prisma.research.findMany({
+        orderBy: {
+          updatedAt: 'desc',
+        },
+        where,
         skip: (page - 1) * limit,
         take: +limit,
       }),
-      this.prisma.research.count(),
+      this.prisma.research.count({ where }),
     ]);
     const totalPages = Math.ceil(totalCount / limit);
 
