@@ -1,0 +1,27 @@
+model Doc {
+  id          String   @id @default(uuid())
+  slug        String   @unique
+  title       String
+  description String?
+  content     String
+  order       Int      @default(999)
+  published   Boolean  @default(false)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  versions    DocVersion[]
+
+  @@index([slug])
+  @@index([published])
+}
+
+model DocVersion {
+  id        String   @id @default(uuid())
+  docId     String
+  doc       Doc      @relation(fields: [docId], references: [id], onDelete: Cascade)
+  content   String
+  title     String
+  authorId  String?
+  createdAt DateTime @default(now())
+
+  @@index([docId, createdAt])
+}

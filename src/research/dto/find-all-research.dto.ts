@@ -13,4 +13,8 @@ export class FindAllResearchDto {
   @IsOptional()
   @IsString()
   search?: string;
+
+  @IsOptional()
+  @IsString()
+  filter?: string;
 }

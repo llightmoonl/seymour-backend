@@ -55,9 +55,23 @@ export class ResearchService {
   }
 
   async findAll(dto: FindAllResearchDto) {
-    const { page, limit, search } = dto;
-    const where =
-        search ? { title: { contains: search, mode: 'insensitive' as const } } : {};
+    const { page, limit, search, filter } = dto;
+    const filterMap: Record<string, number> = {
+      hebbian: 0,
+      delta: 1,
+      backpropagation: 2,
+    };
+
+    const whereFilter =
+      filter && filter !== 'all' && filterMap[filter] !== undefined
+        ? { type: filterMap[filter] }
+        : {};
+
+    const whereSearch = search
+      ? { title: { contains: search, mode: 'insensitive' as const } }
+      : {};
+
+    const where = { ...whereFilter, ...whereSearch };
     const [research, totalCount] = await this.prisma.$transaction([
       this.prisma.research.findMany({
         orderBy: {
