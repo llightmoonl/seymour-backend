@@ -4,10 +4,12 @@ model Research {
   type        Int
   algorithmId Int?       @unique @map("algorithm_id")
   algorithmDeltaId Int?  @unique @map("algorithm_delta_id")
+  algorithmPropagationId Int? @unique @map("algorithm_propagation_id")
   createdAt   DateTime  @default(now()) @map("created_at")
   updatedAt   DateTime  @updatedAt @map("updated_at")
   algorithm   Algorithm? @relation(fields: [algorithmId], references: [id])
   algorithmDelta AlgorithmDelta? @relation(fields: [algorithmDeltaId], references: [id])
+  algorithmPropagation AlgorithmPropagation? @relation(fields: [algorithmPropagationId], references: [id])
   tabs        ResearchTab[]
 
   @@map("research")

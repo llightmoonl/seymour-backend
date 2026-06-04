@@ -5,7 +5,7 @@ info:
 
 http:
   method: DELETE
-  url: "{{url}}/docs/hebbian"
+  url: "{{url}}/docs/delta"
   auth: inherit
 
 settings:

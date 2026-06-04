@@ -34,3 +34,12 @@ model AlgorithmDelta {
 
   @@map("algorithm_delta")
 }
+
+model AlgorithmPropagation {
+  id        Int      @id @default(autoincrement())
+  steps     Int
+  currentPass String
+  research  Research?
+
+  @@map("algorithm_propagation")
+}

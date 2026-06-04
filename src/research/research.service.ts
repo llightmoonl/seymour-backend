@@ -10,47 +10,63 @@ export class ResearchService {
 
   async create(data: Prisma.ResearchCreateInput) {
     const isDelta = data.type === 1;
+    const isBackpropagation = data.type === 2;
+
+    let algorithmRelation: Partial<Prisma.ResearchCreateInput>;
+
+    if (isDelta) {
+      algorithmRelation = {
+        algorithmDelta: {
+          create: {
+            w: Array.from({ length: 3 }, () =>
+              Array.from({ length: 16 }, () => random(1, 3)),
+            ),
+            y_pred: [0, 0, 0],
+            i: 0,
+            j: 0,
+            k: 0,
+            eta: randomFloat(0.05, 1),
+            s: [0, 0, 0],
+            epoch: 0,
+            epsilon: [0, 0, 0],
+            error: 0,
+            isTrained: false,
+          },
+        },
+      };
+    } else if (isBackpropagation) {
+      algorithmRelation = {
+        algorithmPropagation: {
+          create: {
+            steps: 0,
+            currentPass: 'forward',
+          },
+        },
+      };
+    } else {
+      algorithmRelation = {
+        algorithm: {
+          create: {
+            w: Array.from({ length: 15 }, () => random(1, 3)),
+            y_pred: 0,
+            i: 0,
+            j: 0,
+            neuron: random(1, 3),
+            s: 0,
+            epoch: 0,
+            error: 0,
+            isTrained: false,
+            correction: 'none',
+          },
+        },
+      };
+    }
 
     const newData: Prisma.ResearchCreateInput = {
       ...data,
-      ...(isDelta
-        ? {
-            algorithmDelta: {
-              create: {
-                w: Array.from(
-                  { length: 3 },
-                  () => Array.from({ length: 16 }, () => random(1, 3)), // 3 нейрона, 16 весов (x₀..x₁₅)
-                ),
-                y_pred: [0, 0, 0],
-                i: 0,
-                j: 0,
-                k: 0,
-                eta: randomFloat(0.05, 1), // η
-                s: [0, 0, 0],
-                epoch: 0,
-                epsilon: [0, 0, 0],
-                error: 0,
-                isTrained: false,
-              },
-            },
-          }
-        : {
-            algorithm: {
-              create: {
-                w: Array.from({ length: 15 }, () => random(1, 3)),
-                y_pred: 0,
-                i: 0,
-                j: 0,
-                neuron: random(1, 3),
-                s: 0,
-                epoch: 0,
-                error: 0,
-                isTrained: false,
-                correction: 'none',
-              },
-            },
-          }),
+      ...algorithmRelation,
     };
+
     return this.prisma.research.create({ data: newData });
   }
 
