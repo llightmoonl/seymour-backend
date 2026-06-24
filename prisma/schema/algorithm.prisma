@@ -11,6 +11,7 @@ model Algorithm {
   epoch    Int
   error    Int
   isTrained Boolean
+  activeStage String
   research Research?
 
   @@map("algorithm")
@@ -30,6 +31,7 @@ model AlgorithmDelta {
   epoch     Int
   error     Int
   isTrained Boolean
+  activeStage String
   research  Research?
 
   @@map("algorithm_delta")

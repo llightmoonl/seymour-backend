@@ -10,8 +10,8 @@ http:
     type: json
     data: |-
       {
-        "title": "Обратное 1223",
-        "type": 2
+        "title": "Хебба",
+        "type": 0
       }
   auth: inherit
 

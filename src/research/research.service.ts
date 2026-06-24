@@ -2,13 +2,13 @@ import { Injectable } from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service.js';
 import { Prisma } from '../../prisma/src/generated/prisma/client.js';
 import { random, randomFloat } from '../lib/random.js';
-import { FindAllResearchDto } from './dto/find-all-research.dto.js';
+import { CreateResearchDto, FindAllResearchDto } from './dto/index.js';
 
 @Injectable()
 export class ResearchService {
   constructor(private prisma: PrismaService) {}
 
-  async create(data: Prisma.ResearchCreateInput) {
+  async create(data: CreateResearchDto) {
     const isDelta = data.type === 1;
     const isBackpropagation = data.type === 2;
 
@@ -31,6 +31,7 @@ export class ResearchService {
             epsilon: [0, 0, 0],
             error: 0,
             isTrained: false,
+            activeStage: 'generation',
           },
         },
       };
@@ -57,6 +58,7 @@ export class ResearchService {
             error: 0,
             isTrained: false,
             correction: 'none',
+            activeStage: 'generation',
           },
         },
       };

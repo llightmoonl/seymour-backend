@@ -1,10 +1,16 @@
-import { Injectable } from '@nestjs/common';
+import {
+  BadRequestException,
+  NotFoundException,
+  Injectable,
+} from '@nestjs/common';
 import {
   GenerateWeightDto,
   DataDto,
   GenerateDataDto,
   RecognitionDto,
   FindUniqueDto,
+  NextStageDto,
+  Stage,
 } from './dto/index.js';
 import { PrismaService } from '../prisma/prisma.service.js';
 import { InputJsonValue } from '@prisma/client/runtime/client';
@@ -22,6 +28,7 @@ export class HebbianService {
         algorithm: {
           update: {
             data: data as unknown as InputJsonValue,
+            activeStage: 'training',
           },
         },
       },
@@ -124,6 +131,7 @@ export class HebbianService {
               epoch,
               error,
               isTrained,
+              activeStage: isTrained ? 'quality' : 'training',
               correction: correction,
             },
           },
@@ -142,6 +150,7 @@ export class HebbianService {
       error,
       isTrained,
       correction,
+      activeStage: isTrained ? 'quality' : 'training',
     };
   }
 
@@ -191,5 +200,51 @@ export class HebbianService {
     if (!research) throw new Error(`Research with ID ${id} not found`);
 
     return research.algorithm;
+  }
+
+  async nextStage(dto: NextStageDto) {
+    const { id } = dto;
+
+    const STAGE_TRANSITIONS: Record<Stage, Stage | null> = {
+      generation: 'training',
+      training: 'quality',
+      quality: 'recognition',
+      recognition: null,
+    };
+
+    const research = await this.prisma.research.findUnique({
+      where: { id },
+      include: { algorithm: true },
+    });
+    const current = research?.algorithm?.activeStage as Stage | undefined;
+    if (!current) {
+      throw new NotFoundException('Research or its stage not found');
+    }
+
+    const nextStage = STAGE_TRANSITIONS[current];
+    if (!current) {
+      throw new NotFoundException('Research or its stage not found');
+    }
+
+    if (!nextStage) {
+      throw new BadRequestException(
+        'You have gone beyond the boundary of stage',
+      );
+    }
+
+    await this.prisma.research.update({
+      where: { id },
+      data: {
+        algorithm: {
+          update: {
+            activeStage: nextStage,
+          },
+        },
+      },
+    });
+
+    return {
+      success: true,
+    };
   }
 }

@@ -5,12 +5,12 @@ info:
 
 http:
   method: POST
-  url: "{{url}}/research/eb522035-c429-49e3-b818-11676327e539/progress/complete"
+  url: "{{url}}/research/21a2966f-4c80-4d0d-8d92-f5da4a69cd6c/progress/complete"
   body:
     type: json
     data: |-
       {
-        "tab": "generation"
+        "tab": "learning"
       }
   auth: inherit
 

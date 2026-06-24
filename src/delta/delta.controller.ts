@@ -6,6 +6,7 @@ import {
   RecognitionDto,
   FindUniqueDto,
 } from './dto/index.js';
+import { NextStageDto } from '../hebbian/dto/index.js';
 
 @Controller('delta')
 export class DeltaController {
@@ -29,5 +30,10 @@ export class DeltaController {
   @Get('/')
   findUnique(@Query() findUniqueDto: FindUniqueDto) {
     return this.deltaService.findUnique(findUniqueDto);
+  }
+
+  @Put('/nextStage')
+  nextStage(@Body() nextStageDto: NextStageDto) {
+    return this.deltaService.nextStage(nextStageDto);
   }
 }

@@ -6,6 +6,7 @@ import {
   RecognitionDto,
   FindUniqueDto,
 } from './dto/index.js';
+import { NextStageDto } from './dto/next-stage.dto.js';
 
 @Controller('hebbian')
 export class HebbianController {
@@ -29,5 +30,10 @@ export class HebbianController {
   @Get('/')
   findUnique(@Query() findUniqueDto: FindUniqueDto) {
     return this.hebbianService.findUnique(findUniqueDto);
+  }
+
+  @Put('/nextStage')
+  nextStage(@Body() nextStageDto: NextStageDto) {
+    return this.hebbianService.nextStage(nextStageDto);
   }
 }

@@ -1,4 +1,5 @@
-export { GenerateWeightDto } from './generate-weight.dto.js';
-export { GenerateDataDto, DataDto } from './generate-data.dto.js';
-export { RecognitionDto } from './recognition.dto.js';
-export { FindUniqueDto } from './find-unique.dto.js';
+export * from './generate-weight.dto.js';
+export * from './generate-data.dto.js';
+export * from './recognition.dto.js';
+export * from './find-unique.dto.js';
+export * from './next-stage.dto.js';
