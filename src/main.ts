@@ -38,9 +38,9 @@ async function bootstrap() {
     .build();
 
   const document = SwaggerModule.createDocument(app, config);
-  SwaggerModule.setup('api/docs', app, document, {
-    jsonDocumentUrl: 'api/docs-json',
-    yamlDocumentUrl: 'api/docs-yaml',
+  SwaggerModule.setup('swagger/docs', app, document, {
+    jsonDocumentUrl: 'swagger/docs-json',
+    yamlDocumentUrl: 'swagger/docs-yaml',
   });
 
   const port = process.env.APP_PORT ?? 4000;
