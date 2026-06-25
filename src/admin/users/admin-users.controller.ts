@@ -62,13 +62,13 @@ export class AdminUsersController {
     return this.adminUsersService.remove(id, currentUserId);
   }
 
-  @Get(':id/projects')
-  getUserProjects(@Param('id') id: string) {
-    return this.adminUsersService.getUserProjects(id);
+  @Get(':id/research')
+  getUserResearch(@Param('id') id: string) {
+    return this.adminUsersService.getUserResearch(id);
   }
 
-  @Get(':id/projects/report')
-  exportUserProjectsCsv(@Param('id') id: string, @Res() res: Response) {
-    return this.adminUsersService.exportUserProjectsCsv(id, res);
+  @Get(':id/research/report')
+  exportUserResearchCsv(@Param('id') id: string, @Res() res: Response) {
+    return this.adminUsersService.exportUserResearchCsv(id, res);
   }
 }

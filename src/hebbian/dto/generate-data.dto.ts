@@ -13,7 +13,8 @@ export class GenerateDataDto {
   @IsString()
   id: string;
 
-  @ValidateNested()
+  @IsArray()
+  @ValidateNested({ each: true })
   @Type(() => DataDto)
   data: DataDto[];
 }

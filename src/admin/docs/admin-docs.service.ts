@@ -55,7 +55,9 @@ export class AdminDocsService {
     const totalWords = wordCountTotal._sum.wordCount ?? 0;
     const thisMonth = viewsThisMonth._sum.views ?? 0;
     const lastMonth = viewsLastMonth._sum.views ?? 1;
-    const viewsGrowthPct = Math.round(((thisMonth - lastMonth) / lastMonth) * 100);
+    const viewsGrowthPct = Math.round(
+      ((thisMonth - lastMonth) / lastMonth) * 100,
+    );
 
     return {
       total,
@@ -71,13 +73,24 @@ export class AdminDocsService {
   }
 
   async findAll(dto: QueryDocsDto) {
-    const { page = 1, limit = 20, search, section, status, sort = 'updatedAt:desc' } = dto;
+    const {
+      page = 1,
+      limit = 20,
+      search,
+      section,
+      status,
+      sort = 'updatedAt:desc',
+    } = dto;
     const [field, direction] = sort.split(':') as [string, 'asc' | 'desc'];
     const skip = (page - 1) * limit;
 
     const where: Prisma.DocumentWhereInput = {};
-    if (section) where.section = { equals: section as Prisma.EnumDocSectionFilter['equals'] };
-    if (status) where.status = { equals: status as Prisma.EnumDocStatusFilter['equals'] };
+    if (section)
+      where.section = {
+        equals: section as Prisma.EnumDocSectionFilter['equals'],
+      };
+    if (status)
+      where.status = { equals: status as Prisma.EnumDocStatusFilter['equals'] };
     if (search) {
       where.OR = [
         { title: { contains: search, mode: 'insensitive' } },
@@ -128,9 +141,11 @@ export class AdminDocsService {
     return this.prisma.document.create({
       data: {
         title: dto.title,
-        section: (dto.section ?? 'OTHER') as Prisma.EnumDocSectionFilter['equals'],
+        section: (dto.section ??
+          'OTHER') as Prisma.EnumDocSectionFilter['equals'],
         status: (dto.status ?? 'DRAFT') as Prisma.EnumDocStatusFilter['equals'],
-        visibility: (dto.visibility ?? 'ALL') as Prisma.EnumDocVisibilityFilter['equals'],
+        visibility: (dto.visibility ??
+          'ALL') as Prisma.EnumDocVisibilityFilter['equals'],
         contentMd: dto.contentMd,
         tags: dto.tags ?? [],
         wordCount,
@@ -157,9 +172,13 @@ export class AdminDocsService {
 
     const data: Prisma.DocumentUpdateInput = {};
     if (dto.title !== undefined) data.title = dto.title;
-    if (dto.section !== undefined) data.section = dto.section as Prisma.EnumDocSectionFilter['equals'];
-    if (dto.status !== undefined) data.status = dto.status as Prisma.EnumDocStatusFilter['equals'];
-    if (dto.visibility !== undefined) data.visibility = dto.visibility as Prisma.EnumDocVisibilityFilter['equals'];
+    if (dto.section !== undefined)
+      data.section = dto.section as Prisma.EnumDocSectionFilter['equals'];
+    if (dto.status !== undefined)
+      data.status = dto.status as Prisma.EnumDocStatusFilter['equals'];
+    if (dto.visibility !== undefined)
+      data.visibility =
+        dto.visibility as Prisma.EnumDocVisibilityFilter['equals'];
     if (dto.tags !== undefined) data.tags = dto.tags;
     if (dto.contentMd !== undefined) {
       data.contentMd = dto.contentMd;
@@ -225,7 +244,8 @@ export class AdminDocsService {
   }
 
   async importDoc(fileContent: string, authorId: string) {
-    const title = fileContent.split('\n')[0]?.replace(/^#\s*/, '') || 'Imported Document';
+    const title =
+      fileContent.split('\n')[0]?.replace(/^#\s*/, '') || 'Imported Document';
     const wordCount = countWords(fileContent);
     return this.prisma.document.create({
       data: {

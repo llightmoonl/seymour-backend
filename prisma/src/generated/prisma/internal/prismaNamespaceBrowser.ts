@@ -56,9 +56,7 @@ export const ModelName = {
   AlgorithmDelta: 'AlgorithmDelta',
   AlgorithmPropagation: 'AlgorithmPropagation',
   Document: 'Document',
-  Project: 'Project',
   Research: 'Research',
-  ResearchTab: 'ResearchTab',
   Session: 'Session',
   User: 'User'
 } as const
@@ -82,7 +80,7 @@ export type TransactionIsolationLevel = (typeof TransactionIsolationLevel)[keyof
 export const ActivityScalarFieldEnum = {
   id: 'id',
   type: 'type',
-  projectId: 'projectId',
+  researchId: 'researchId',
   userId: 'userId',
   createdAt: 'createdAt'
 } as const
@@ -158,26 +156,12 @@ export const DocumentScalarFieldEnum = {
 export type DocumentScalarFieldEnum = (typeof DocumentScalarFieldEnum)[keyof typeof DocumentScalarFieldEnum]
 
 
-export const ProjectScalarFieldEnum = {
-  id: 'id',
-  name: 'name',
-  rule: 'rule',
-  status: 'status',
-  accuracy: 'accuracy',
-  examples: 'examples',
-  epochs: 'epochs',
-  userId: 'userId',
-  createdAt: 'createdAt',
-  updatedAt: 'updatedAt'
-} as const
-
-export type ProjectScalarFieldEnum = (typeof ProjectScalarFieldEnum)[keyof typeof ProjectScalarFieldEnum]
-
-
 export const ResearchScalarFieldEnum = {
   id: 'id',
   title: 'title',
   type: 'type',
+  status: 'status',
+  userId: 'userId',
   algorithmId: 'algorithmId',
   algorithmDeltaId: 'algorithmDeltaId',
   algorithmPropagationId: 'algorithmPropagationId',
@@ -186,16 +170,6 @@ export const ResearchScalarFieldEnum = {
 } as const
 
 export type ResearchScalarFieldEnum = (typeof ResearchScalarFieldEnum)[keyof typeof ResearchScalarFieldEnum]
-
-
-export const ResearchTabScalarFieldEnum = {
-  id: 'id',
-  researchId: 'researchId',
-  key: 'key',
-  completed: 'completed'
-} as const
-
-export type ResearchTabScalarFieldEnum = (typeof ResearchTabScalarFieldEnum)[keyof typeof ResearchTabScalarFieldEnum]
 
 
 export const SessionScalarFieldEnum = {

@@ -67,20 +67,10 @@ export type AlgorithmPropagation = Prisma.AlgorithmPropagationModel
  */
 export type Document = Prisma.DocumentModel
 /**
- * Model Project
- * 
- */
-export type Project = Prisma.ProjectModel
-/**
  * Model Research
  * 
  */
 export type Research = Prisma.ResearchModel
-/**
- * Model ResearchTab
- * 
- */
-export type ResearchTab = Prisma.ResearchTabModel
 /**
  * Model Session
  * 

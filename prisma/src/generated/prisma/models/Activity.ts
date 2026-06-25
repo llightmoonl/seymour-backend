@@ -27,7 +27,7 @@ export type AggregateActivity = {
 export type ActivityMinAggregateOutputType = {
   id: string | null
   type: $Enums.ActivityType | null
-  projectId: string | null
+  researchId: string | null
   userId: string | null
   createdAt: Date | null
 }
@@ -35,7 +35,7 @@ export type ActivityMinAggregateOutputType = {
 export type ActivityMaxAggregateOutputType = {
   id: string | null
   type: $Enums.ActivityType | null
-  projectId: string | null
+  researchId: string | null
   userId: string | null
   createdAt: Date | null
 }
@@ -43,7 +43,7 @@ export type ActivityMaxAggregateOutputType = {
 export type ActivityCountAggregateOutputType = {
   id: number
   type: number
-  projectId: number
+  researchId: number
   userId: number
   createdAt: number
   _all: number
@@ -53,7 +53,7 @@ export type ActivityCountAggregateOutputType = {
 export type ActivityMinAggregateInputType = {
   id?: true
   type?: true
-  projectId?: true
+  researchId?: true
   userId?: true
   createdAt?: true
 }
@@ -61,7 +61,7 @@ export type ActivityMinAggregateInputType = {
 export type ActivityMaxAggregateInputType = {
   id?: true
   type?: true
-  projectId?: true
+  researchId?: true
   userId?: true
   createdAt?: true
 }
@@ -69,7 +69,7 @@ export type ActivityMaxAggregateInputType = {
 export type ActivityCountAggregateInputType = {
   id?: true
   type?: true
-  projectId?: true
+  researchId?: true
   userId?: true
   createdAt?: true
   _all?: true
@@ -150,7 +150,7 @@ export type ActivityGroupByArgs<ExtArgs extends runtime.Types.Extensions.Interna
 export type ActivityGroupByOutputType = {
   id: string
   type: $Enums.ActivityType
-  projectId: string
+  researchId: string
   userId: string
   createdAt: Date
   _count: ActivityCountAggregateOutputType | null
@@ -179,20 +179,20 @@ export type ActivityWhereInput = {
   NOT?: Prisma.ActivityWhereInput | Prisma.ActivityWhereInput[]
   id?: Prisma.StringFilter<"Activity"> | string
   type?: Prisma.EnumActivityTypeFilter<"Activity"> | $Enums.ActivityType
-  projectId?: Prisma.StringFilter<"Activity"> | string
+  researchId?: Prisma.StringFilter<"Activity"> | string
   userId?: Prisma.StringFilter<"Activity"> | string
   createdAt?: Prisma.DateTimeFilter<"Activity"> | Date | string
-  project?: Prisma.XOR<Prisma.ProjectScalarRelationFilter, Prisma.ProjectWhereInput>
+  research?: Prisma.XOR<Prisma.ResearchScalarRelationFilter, Prisma.ResearchWhereInput>
   user?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
 }
 
 export type ActivityOrderByWithRelationInput = {
   id?: Prisma.SortOrder
   type?: Prisma.SortOrder
-  projectId?: Prisma.SortOrder
+  researchId?: Prisma.SortOrder
   userId?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
-  project?: Prisma.ProjectOrderByWithRelationInput
+  research?: Prisma.ResearchOrderByWithRelationInput
   user?: Prisma.UserOrderByWithRelationInput
 }
 
@@ -202,17 +202,17 @@ export type ActivityWhereUniqueInput = Prisma.AtLeast<{
   OR?: Prisma.ActivityWhereInput[]
   NOT?: Prisma.ActivityWhereInput | Prisma.ActivityWhereInput[]
   type?: Prisma.EnumActivityTypeFilter<"Activity"> | $Enums.ActivityType
-  projectId?: Prisma.StringFilter<"Activity"> | string
+  researchId?: Prisma.StringFilter<"Activity"> | string
   userId?: Prisma.StringFilter<"Activity"> | string
   createdAt?: Prisma.DateTimeFilter<"Activity"> | Date | string
-  project?: Prisma.XOR<Prisma.ProjectScalarRelationFilter, Prisma.ProjectWhereInput>
+  research?: Prisma.XOR<Prisma.ResearchScalarRelationFilter, Prisma.ResearchWhereInput>
   user?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
 }, "id">
 
 export type ActivityOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
   type?: Prisma.SortOrder
-  projectId?: Prisma.SortOrder
+  researchId?: Prisma.SortOrder
   userId?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   _count?: Prisma.ActivityCountOrderByAggregateInput
@@ -226,7 +226,7 @@ export type ActivityScalarWhereWithAggregatesInput = {
   NOT?: Prisma.ActivityScalarWhereWithAggregatesInput | Prisma.ActivityScalarWhereWithAggregatesInput[]
   id?: Prisma.StringWithAggregatesFilter<"Activity"> | string
   type?: Prisma.EnumActivityTypeWithAggregatesFilter<"Activity"> | $Enums.ActivityType
-  projectId?: Prisma.StringWithAggregatesFilter<"Activity"> | string
+  researchId?: Prisma.StringWithAggregatesFilter<"Activity"> | string
   userId?: Prisma.StringWithAggregatesFilter<"Activity"> | string
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"Activity"> | Date | string
 }
@@ -235,14 +235,14 @@ export type ActivityCreateInput = {
   id?: string
   type: $Enums.ActivityType
   createdAt?: Date | string
-  project: Prisma.ProjectCreateNestedOneWithoutActivitiesInput
+  research: Prisma.ResearchCreateNestedOneWithoutActivitiesInput
   user: Prisma.UserCreateNestedOneWithoutActivitiesInput
 }
 
 export type ActivityUncheckedCreateInput = {
   id?: string
   type: $Enums.ActivityType
-  projectId: string
+  researchId: string
   userId: string
   createdAt?: Date | string
 }
@@ -251,14 +251,14 @@ export type ActivityUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   type?: Prisma.EnumActivityTypeFieldUpdateOperationsInput | $Enums.ActivityType
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  project?: Prisma.ProjectUpdateOneRequiredWithoutActivitiesNestedInput
+  research?: Prisma.ResearchUpdateOneRequiredWithoutActivitiesNestedInput
   user?: Prisma.UserUpdateOneRequiredWithoutActivitiesNestedInput
 }
 
 export type ActivityUncheckedUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   type?: Prisma.EnumActivityTypeFieldUpdateOperationsInput | $Enums.ActivityType
-  projectId?: Prisma.StringFieldUpdateOperationsInput | string
+  researchId?: Prisma.StringFieldUpdateOperationsInput | string
   userId?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -266,7 +266,7 @@ export type ActivityUncheckedUpdateInput = {
 export type ActivityCreateManyInput = {
   id?: string
   type: $Enums.ActivityType
-  projectId: string
+  researchId: string
   userId: string
   createdAt?: Date | string
 }
@@ -280,7 +280,7 @@ export type ActivityUpdateManyMutationInput = {
 export type ActivityUncheckedUpdateManyInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   type?: Prisma.EnumActivityTypeFieldUpdateOperationsInput | $Enums.ActivityType
-  projectId?: Prisma.StringFieldUpdateOperationsInput | string
+  researchId?: Prisma.StringFieldUpdateOperationsInput | string
   userId?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -288,7 +288,7 @@ export type ActivityUncheckedUpdateManyInput = {
 export type ActivityCountOrderByAggregateInput = {
   id?: Prisma.SortOrder
   type?: Prisma.SortOrder
-  projectId?: Prisma.SortOrder
+  researchId?: Prisma.SortOrder
   userId?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
 }
@@ -296,7 +296,7 @@ export type ActivityCountOrderByAggregateInput = {
 export type ActivityMaxOrderByAggregateInput = {
   id?: Prisma.SortOrder
   type?: Prisma.SortOrder
-  projectId?: Prisma.SortOrder
+  researchId?: Prisma.SortOrder
   userId?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
 }
@@ -304,7 +304,7 @@ export type ActivityMaxOrderByAggregateInput = {
 export type ActivityMinOrderByAggregateInput = {
   id?: Prisma.SortOrder
   type?: Prisma.SortOrder
-  projectId?: Prisma.SortOrder
+  researchId?: Prisma.SortOrder
   userId?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
 }
@@ -331,45 +331,45 @@ export type DateTimeFieldUpdateOperationsInput = {
   set?: Date | string
 }
 
-export type ActivityCreateNestedManyWithoutProjectInput = {
-  create?: Prisma.XOR<Prisma.ActivityCreateWithoutProjectInput, Prisma.ActivityUncheckedCreateWithoutProjectInput> | Prisma.ActivityCreateWithoutProjectInput[] | Prisma.ActivityUncheckedCreateWithoutProjectInput[]
-  connectOrCreate?: Prisma.ActivityCreateOrConnectWithoutProjectInput | Prisma.ActivityCreateOrConnectWithoutProjectInput[]
-  createMany?: Prisma.ActivityCreateManyProjectInputEnvelope
+export type ActivityCreateNestedManyWithoutResearchInput = {
+  create?: Prisma.XOR<Prisma.ActivityCreateWithoutResearchInput, Prisma.ActivityUncheckedCreateWithoutResearchInput> | Prisma.ActivityCreateWithoutResearchInput[] | Prisma.ActivityUncheckedCreateWithoutResearchInput[]
+  connectOrCreate?: Prisma.ActivityCreateOrConnectWithoutResearchInput | Prisma.ActivityCreateOrConnectWithoutResearchInput[]
+  createMany?: Prisma.ActivityCreateManyResearchInputEnvelope
   connect?: Prisma.ActivityWhereUniqueInput | Prisma.ActivityWhereUniqueInput[]
 }
 
-export type ActivityUncheckedCreateNestedManyWithoutProjectInput = {
-  create?: Prisma.XOR<Prisma.ActivityCreateWithoutProjectInput, Prisma.ActivityUncheckedCreateWithoutProjectInput> | Prisma.ActivityCreateWithoutProjectInput[] | Prisma.ActivityUncheckedCreateWithoutProjectInput[]
-  connectOrCreate?: Prisma.ActivityCreateOrConnectWithoutProjectInput | Prisma.ActivityCreateOrConnectWithoutProjectInput[]
-  createMany?: Prisma.ActivityCreateManyProjectInputEnvelope
+export type ActivityUncheckedCreateNestedManyWithoutResearchInput = {
+  create?: Prisma.XOR<Prisma.ActivityCreateWithoutResearchInput, Prisma.ActivityUncheckedCreateWithoutResearchInput> | Prisma.ActivityCreateWithoutResearchInput[] | Prisma.ActivityUncheckedCreateWithoutResearchInput[]
+  connectOrCreate?: Prisma.ActivityCreateOrConnectWithoutResearchInput | Prisma.ActivityCreateOrConnectWithoutResearchInput[]
+  createMany?: Prisma.ActivityCreateManyResearchInputEnvelope
   connect?: Prisma.ActivityWhereUniqueInput | Prisma.ActivityWhereUniqueInput[]
 }
 
-export type ActivityUpdateManyWithoutProjectNestedInput = {
-  create?: Prisma.XOR<Prisma.ActivityCreateWithoutProjectInput, Prisma.ActivityUncheckedCreateWithoutProjectInput> | Prisma.ActivityCreateWithoutProjectInput[] | Prisma.ActivityUncheckedCreateWithoutProjectInput[]
-  connectOrCreate?: Prisma.ActivityCreateOrConnectWithoutProjectInput | Prisma.ActivityCreateOrConnectWithoutProjectInput[]
-  upsert?: Prisma.ActivityUpsertWithWhereUniqueWithoutProjectInput | Prisma.ActivityUpsertWithWhereUniqueWithoutProjectInput[]
-  createMany?: Prisma.ActivityCreateManyProjectInputEnvelope
+export type ActivityUpdateManyWithoutResearchNestedInput = {
+  create?: Prisma.XOR<Prisma.ActivityCreateWithoutResearchInput, Prisma.ActivityUncheckedCreateWithoutResearchInput> | Prisma.ActivityCreateWithoutResearchInput[] | Prisma.ActivityUncheckedCreateWithoutResearchInput[]
+  connectOrCreate?: Prisma.ActivityCreateOrConnectWithoutResearchInput | Prisma.ActivityCreateOrConnectWithoutResearchInput[]
+  upsert?: Prisma.ActivityUpsertWithWhereUniqueWithoutResearchInput | Prisma.ActivityUpsertWithWhereUniqueWithoutResearchInput[]
+  createMany?: Prisma.ActivityCreateManyResearchInputEnvelope
   set?: Prisma.ActivityWhereUniqueInput | Prisma.ActivityWhereUniqueInput[]
   disconnect?: Prisma.ActivityWhereUniqueInput | Prisma.ActivityWhereUniqueInput[]
   delete?: Prisma.ActivityWhereUniqueInput | Prisma.ActivityWhereUniqueInput[]
   connect?: Prisma.ActivityWhereUniqueInput | Prisma.ActivityWhereUniqueInput[]
-  update?: Prisma.ActivityUpdateWithWhereUniqueWithoutProjectInput | Prisma.ActivityUpdateWithWhereUniqueWithoutProjectInput[]
-  updateMany?: Prisma.ActivityUpdateManyWithWhereWithoutProjectInput | Prisma.ActivityUpdateManyWithWhereWithoutProjectInput[]
+  update?: Prisma.ActivityUpdateWithWhereUniqueWithoutResearchInput | Prisma.ActivityUpdateWithWhereUniqueWithoutResearchInput[]
+  updateMany?: Prisma.ActivityUpdateManyWithWhereWithoutResearchInput | Prisma.ActivityUpdateManyWithWhereWithoutResearchInput[]
   deleteMany?: Prisma.ActivityScalarWhereInput | Prisma.ActivityScalarWhereInput[]
 }
 
-export type ActivityUncheckedUpdateManyWithoutProjectNestedInput = {
-  create?: Prisma.XOR<Prisma.ActivityCreateWithoutProjectInput, Prisma.ActivityUncheckedCreateWithoutProjectInput> | Prisma.ActivityCreateWithoutProjectInput[] | Prisma.ActivityUncheckedCreateWithoutProjectInput[]
-  connectOrCreate?: Prisma.ActivityCreateOrConnectWithoutProjectInput | Prisma.ActivityCreateOrConnectWithoutProjectInput[]
-  upsert?: Prisma.ActivityUpsertWithWhereUniqueWithoutProjectInput | Prisma.ActivityUpsertWithWhereUniqueWithoutProjectInput[]
-  createMany?: Prisma.ActivityCreateManyProjectInputEnvelope
+export type ActivityUncheckedUpdateManyWithoutResearchNestedInput = {
+  create?: Prisma.XOR<Prisma.ActivityCreateWithoutResearchInput, Prisma.ActivityUncheckedCreateWithoutResearchInput> | Prisma.ActivityCreateWithoutResearchInput[] | Prisma.ActivityUncheckedCreateWithoutResearchInput[]
+  connectOrCreate?: Prisma.ActivityCreateOrConnectWithoutResearchInput | Prisma.ActivityCreateOrConnectWithoutResearchInput[]
+  upsert?: Prisma.ActivityUpsertWithWhereUniqueWithoutResearchInput | Prisma.ActivityUpsertWithWhereUniqueWithoutResearchInput[]
+  createMany?: Prisma.ActivityCreateManyResearchInputEnvelope
   set?: Prisma.ActivityWhereUniqueInput | Prisma.ActivityWhereUniqueInput[]
   disconnect?: Prisma.ActivityWhereUniqueInput | Prisma.ActivityWhereUniqueInput[]
   delete?: Prisma.ActivityWhereUniqueInput | Prisma.ActivityWhereUniqueInput[]
   connect?: Prisma.ActivityWhereUniqueInput | Prisma.ActivityWhereUniqueInput[]
-  update?: Prisma.ActivityUpdateWithWhereUniqueWithoutProjectInput | Prisma.ActivityUpdateWithWhereUniqueWithoutProjectInput[]
-  updateMany?: Prisma.ActivityUpdateManyWithWhereWithoutProjectInput | Prisma.ActivityUpdateManyWithWhereWithoutProjectInput[]
+  update?: Prisma.ActivityUpdateWithWhereUniqueWithoutResearchInput | Prisma.ActivityUpdateWithWhereUniqueWithoutResearchInput[]
+  updateMany?: Prisma.ActivityUpdateManyWithWhereWithoutResearchInput | Prisma.ActivityUpdateManyWithWhereWithoutResearchInput[]
   deleteMany?: Prisma.ActivityScalarWhereInput | Prisma.ActivityScalarWhereInput[]
 }
 
@@ -415,44 +415,44 @@ export type ActivityUncheckedUpdateManyWithoutUserNestedInput = {
   deleteMany?: Prisma.ActivityScalarWhereInput | Prisma.ActivityScalarWhereInput[]
 }
 
-export type ActivityCreateWithoutProjectInput = {
+export type ActivityCreateWithoutResearchInput = {
   id?: string
   type: $Enums.ActivityType
   createdAt?: Date | string
   user: Prisma.UserCreateNestedOneWithoutActivitiesInput
 }
 
-export type ActivityUncheckedCreateWithoutProjectInput = {
+export type ActivityUncheckedCreateWithoutResearchInput = {
   id?: string
   type: $Enums.ActivityType
   userId: string
   createdAt?: Date | string
 }
 
-export type ActivityCreateOrConnectWithoutProjectInput = {
+export type ActivityCreateOrConnectWithoutResearchInput = {
   where: Prisma.ActivityWhereUniqueInput
-  create: Prisma.XOR<Prisma.ActivityCreateWithoutProjectInput, Prisma.ActivityUncheckedCreateWithoutProjectInput>
+  create: Prisma.XOR<Prisma.ActivityCreateWithoutResearchInput, Prisma.ActivityUncheckedCreateWithoutResearchInput>
 }
 
-export type ActivityCreateManyProjectInputEnvelope = {
-  data: Prisma.ActivityCreateManyProjectInput | Prisma.ActivityCreateManyProjectInput[]
+export type ActivityCreateManyResearchInputEnvelope = {
+  data: Prisma.ActivityCreateManyResearchInput | Prisma.ActivityCreateManyResearchInput[]
   skipDuplicates?: boolean
 }
 
-export type ActivityUpsertWithWhereUniqueWithoutProjectInput = {
+export type ActivityUpsertWithWhereUniqueWithoutResearchInput = {
   where: Prisma.ActivityWhereUniqueInput
-  update: Prisma.XOR<Prisma.ActivityUpdateWithoutProjectInput, Prisma.ActivityUncheckedUpdateWithoutProjectInput>
-  create: Prisma.XOR<Prisma.ActivityCreateWithoutProjectInput, Prisma.ActivityUncheckedCreateWithoutProjectInput>
+  update: Prisma.XOR<Prisma.ActivityUpdateWithoutResearchInput, Prisma.ActivityUncheckedUpdateWithoutResearchInput>
+  create: Prisma.XOR<Prisma.ActivityCreateWithoutResearchInput, Prisma.ActivityUncheckedCreateWithoutResearchInput>
 }
 
-export type ActivityUpdateWithWhereUniqueWithoutProjectInput = {
+export type ActivityUpdateWithWhereUniqueWithoutResearchInput = {
   where: Prisma.ActivityWhereUniqueInput
-  data: Prisma.XOR<Prisma.ActivityUpdateWithoutProjectInput, Prisma.ActivityUncheckedUpdateWithoutProjectInput>
+  data: Prisma.XOR<Prisma.ActivityUpdateWithoutResearchInput, Prisma.ActivityUncheckedUpdateWithoutResearchInput>
 }
 
-export type ActivityUpdateManyWithWhereWithoutProjectInput = {
+export type ActivityUpdateManyWithWhereWithoutResearchInput = {
   where: Prisma.ActivityScalarWhereInput
-  data: Prisma.XOR<Prisma.ActivityUpdateManyMutationInput, Prisma.ActivityUncheckedUpdateManyWithoutProjectInput>
+  data: Prisma.XOR<Prisma.ActivityUpdateManyMutationInput, Prisma.ActivityUncheckedUpdateManyWithoutResearchInput>
 }
 
 export type ActivityScalarWhereInput = {
@@ -461,7 +461,7 @@ export type ActivityScalarWhereInput = {
   NOT?: Prisma.ActivityScalarWhereInput | Prisma.ActivityScalarWhereInput[]
   id?: Prisma.StringFilter<"Activity"> | string
   type?: Prisma.EnumActivityTypeFilter<"Activity"> | $Enums.ActivityType
-  projectId?: Prisma.StringFilter<"Activity"> | string
+  researchId?: Prisma.StringFilter<"Activity"> | string
   userId?: Prisma.StringFilter<"Activity"> | string
   createdAt?: Prisma.DateTimeFilter<"Activity"> | Date | string
 }
@@ -470,13 +470,13 @@ export type ActivityCreateWithoutUserInput = {
   id?: string
   type: $Enums.ActivityType
   createdAt?: Date | string
-  project: Prisma.ProjectCreateNestedOneWithoutActivitiesInput
+  research: Prisma.ResearchCreateNestedOneWithoutActivitiesInput
 }
 
 export type ActivityUncheckedCreateWithoutUserInput = {
   id?: string
   type: $Enums.ActivityType
-  projectId: string
+  researchId: string
   createdAt?: Date | string
 }
 
@@ -506,28 +506,28 @@ export type ActivityUpdateManyWithWhereWithoutUserInput = {
   data: Prisma.XOR<Prisma.ActivityUpdateManyMutationInput, Prisma.ActivityUncheckedUpdateManyWithoutUserInput>
 }
 
-export type ActivityCreateManyProjectInput = {
+export type ActivityCreateManyResearchInput = {
   id?: string
   type: $Enums.ActivityType
   userId: string
   createdAt?: Date | string
 }
 
-export type ActivityUpdateWithoutProjectInput = {
+export type ActivityUpdateWithoutResearchInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   type?: Prisma.EnumActivityTypeFieldUpdateOperationsInput | $Enums.ActivityType
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   user?: Prisma.UserUpdateOneRequiredWithoutActivitiesNestedInput
 }
 
-export type ActivityUncheckedUpdateWithoutProjectInput = {
+export type ActivityUncheckedUpdateWithoutResearchInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   type?: Prisma.EnumActivityTypeFieldUpdateOperationsInput | $Enums.ActivityType
   userId?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
-export type ActivityUncheckedUpdateManyWithoutProjectInput = {
+export type ActivityUncheckedUpdateManyWithoutResearchInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   type?: Prisma.EnumActivityTypeFieldUpdateOperationsInput | $Enums.ActivityType
   userId?: Prisma.StringFieldUpdateOperationsInput | string
@@ -537,7 +537,7 @@ export type ActivityUncheckedUpdateManyWithoutProjectInput = {
 export type ActivityCreateManyUserInput = {
   id?: string
   type: $Enums.ActivityType
-  projectId: string
+  researchId: string
   createdAt?: Date | string
 }
 
@@ -545,20 +545,20 @@ export type ActivityUpdateWithoutUserInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   type?: Prisma.EnumActivityTypeFieldUpdateOperationsInput | $Enums.ActivityType
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  project?: Prisma.ProjectUpdateOneRequiredWithoutActivitiesNestedInput
+  research?: Prisma.ResearchUpdateOneRequiredWithoutActivitiesNestedInput
 }
 
 export type ActivityUncheckedUpdateWithoutUserInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   type?: Prisma.EnumActivityTypeFieldUpdateOperationsInput | $Enums.ActivityType
-  projectId?: Prisma.StringFieldUpdateOperationsInput | string
+  researchId?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
 export type ActivityUncheckedUpdateManyWithoutUserInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   type?: Prisma.EnumActivityTypeFieldUpdateOperationsInput | $Enums.ActivityType
-  projectId?: Prisma.StringFieldUpdateOperationsInput | string
+  researchId?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
@@ -567,65 +567,65 @@ export type ActivityUncheckedUpdateManyWithoutUserInput = {
 export type ActivitySelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
   type?: boolean
-  projectId?: boolean
+  researchId?: boolean
   userId?: boolean
   createdAt?: boolean
-  project?: boolean | Prisma.ProjectDefaultArgs<ExtArgs>
+  research?: boolean | Prisma.ResearchDefaultArgs<ExtArgs>
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["activity"]>
 
 export type ActivitySelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
   type?: boolean
-  projectId?: boolean
+  researchId?: boolean
   userId?: boolean
   createdAt?: boolean
-  project?: boolean | Prisma.ProjectDefaultArgs<ExtArgs>
+  research?: boolean | Prisma.ResearchDefaultArgs<ExtArgs>
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["activity"]>
 
 export type ActivitySelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
   type?: boolean
-  projectId?: boolean
+  researchId?: boolean
   userId?: boolean
   createdAt?: boolean
-  project?: boolean | Prisma.ProjectDefaultArgs<ExtArgs>
+  research?: boolean | Prisma.ResearchDefaultArgs<ExtArgs>
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["activity"]>
 
 export type ActivitySelectScalar = {
   id?: boolean
   type?: boolean
-  projectId?: boolean
+  researchId?: boolean
   userId?: boolean
   createdAt?: boolean
 }
 
-export type ActivityOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "type" | "projectId" | "userId" | "createdAt", ExtArgs["result"]["activity"]>
+export type ActivityOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "type" | "researchId" | "userId" | "createdAt", ExtArgs["result"]["activity"]>
 export type ActivityInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  project?: boolean | Prisma.ProjectDefaultArgs<ExtArgs>
+  research?: boolean | Prisma.ResearchDefaultArgs<ExtArgs>
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
 }
 export type ActivityIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  project?: boolean | Prisma.ProjectDefaultArgs<ExtArgs>
+  research?: boolean | Prisma.ResearchDefaultArgs<ExtArgs>
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
 }
 export type ActivityIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  project?: boolean | Prisma.ProjectDefaultArgs<ExtArgs>
+  research?: boolean | Prisma.ResearchDefaultArgs<ExtArgs>
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
 }
 
 export type $ActivityPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "Activity"
   objects: {
-    project: Prisma.$ProjectPayload<ExtArgs>
+    research: Prisma.$ResearchPayload<ExtArgs>
     user: Prisma.$UserPayload<ExtArgs>
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
     type: $Enums.ActivityType
-    projectId: string
+    researchId: string
     userId: string
     createdAt: Date
   }, ExtArgs["result"]["activity"]>
@@ -1022,7 +1022,7 @@ readonly fields: ActivityFieldRefs;
  */
 export interface Prisma__ActivityClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
-  project<T extends Prisma.ProjectDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.ProjectDefaultArgs<ExtArgs>>): Prisma.Prisma__ProjectClient<runtime.Types.Result.GetResult<Prisma.$ProjectPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+  research<T extends Prisma.ResearchDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.ResearchDefaultArgs<ExtArgs>>): Prisma.Prisma__ResearchClient<runtime.Types.Result.GetResult<Prisma.$ResearchPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   user<T extends Prisma.UserDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.UserDefaultArgs<ExtArgs>>): Prisma.Prisma__UserClient<runtime.Types.Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
@@ -1055,7 +1055,7 @@ export interface Prisma__ActivityClient<T, Null = never, ExtArgs extends runtime
 export interface ActivityFieldRefs {
   readonly id: Prisma.FieldRef<"Activity", 'String'>
   readonly type: Prisma.FieldRef<"Activity", 'ActivityType'>
-  readonly projectId: Prisma.FieldRef<"Activity", 'String'>
+  readonly researchId: Prisma.FieldRef<"Activity", 'String'>
   readonly userId: Prisma.FieldRef<"Activity", 'String'>
   readonly createdAt: Prisma.FieldRef<"Activity", 'DateTime'>
 }

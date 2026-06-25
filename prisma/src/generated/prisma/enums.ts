@@ -48,9 +48,9 @@ export type DocVisibility = (typeof DocVisibility)[keyof typeof DocVisibility]
 
 
 export const LearningRule = {
-  HEBB: 'HEBB',
+  HEBBIAN: 'HEBBIAN',
   DELTA: 'DELTA',
-  BACKPROP: 'BACKPROP'
+  BACKPROPAGATION: 'BACKPROPAGATION'
 } as const
 
 export type LearningRule = (typeof LearningRule)[keyof typeof LearningRule]

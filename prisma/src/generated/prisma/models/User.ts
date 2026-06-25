@@ -278,7 +278,7 @@ export type UserWhereInput = {
   deletionScheduledFor?: Prisma.DateTimeNullableFilter<"User"> | Date | string | null
   createdAt?: Prisma.DateTimeFilter<"User"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"User"> | Date | string
-  projects?: Prisma.ProjectListRelationFilter
+  research?: Prisma.ResearchListRelationFilter
   activities?: Prisma.ActivityListRelationFilter
   sessions?: Prisma.SessionListRelationFilter
   authoredDocs?: Prisma.DocumentListRelationFilter
@@ -302,7 +302,7 @@ export type UserOrderByWithRelationInput = {
   deletionScheduledFor?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
-  projects?: Prisma.ProjectOrderByRelationAggregateInput
+  research?: Prisma.ResearchOrderByRelationAggregateInput
   activities?: Prisma.ActivityOrderByRelationAggregateInput
   sessions?: Prisma.SessionOrderByRelationAggregateInput
   authoredDocs?: Prisma.DocumentOrderByRelationAggregateInput
@@ -329,7 +329,7 @@ export type UserWhereUniqueInput = Prisma.AtLeast<{
   deletionScheduledFor?: Prisma.DateTimeNullableFilter<"User"> | Date | string | null
   createdAt?: Prisma.DateTimeFilter<"User"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"User"> | Date | string
-  projects?: Prisma.ProjectListRelationFilter
+  research?: Prisma.ResearchListRelationFilter
   activities?: Prisma.ActivityListRelationFilter
   sessions?: Prisma.SessionListRelationFilter
   authoredDocs?: Prisma.DocumentListRelationFilter
@@ -399,7 +399,7 @@ export type UserCreateInput = {
   deletionScheduledFor?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
-  projects?: Prisma.ProjectCreateNestedManyWithoutUserInput
+  research?: Prisma.ResearchCreateNestedManyWithoutUserInput
   activities?: Prisma.ActivityCreateNestedManyWithoutUserInput
   sessions?: Prisma.SessionCreateNestedManyWithoutUserInput
   authoredDocs?: Prisma.DocumentCreateNestedManyWithoutAuthorInput
@@ -423,7 +423,7 @@ export type UserUncheckedCreateInput = {
   deletionScheduledFor?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
-  projects?: Prisma.ProjectUncheckedCreateNestedManyWithoutUserInput
+  research?: Prisma.ResearchUncheckedCreateNestedManyWithoutUserInput
   activities?: Prisma.ActivityUncheckedCreateNestedManyWithoutUserInput
   sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput
   authoredDocs?: Prisma.DocumentUncheckedCreateNestedManyWithoutAuthorInput
@@ -447,7 +447,7 @@ export type UserUpdateInput = {
   deletionScheduledFor?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  projects?: Prisma.ProjectUpdateManyWithoutUserNestedInput
+  research?: Prisma.ResearchUpdateManyWithoutUserNestedInput
   activities?: Prisma.ActivityUpdateManyWithoutUserNestedInput
   sessions?: Prisma.SessionUpdateManyWithoutUserNestedInput
   authoredDocs?: Prisma.DocumentUpdateManyWithoutAuthorNestedInput
@@ -471,7 +471,7 @@ export type UserUncheckedUpdateInput = {
   deletionScheduledFor?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  projects?: Prisma.ProjectUncheckedUpdateManyWithoutUserNestedInput
+  research?: Prisma.ResearchUncheckedUpdateManyWithoutUserNestedInput
   activities?: Prisma.ActivityUncheckedUpdateManyWithoutUserNestedInput
   sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput
   authoredDocs?: Prisma.DocumentUncheckedUpdateManyWithoutAuthorNestedInput
@@ -637,18 +637,18 @@ export type UserUpdateOneWithoutAuthoredDocsNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutAuthoredDocsInput, Prisma.UserUpdateWithoutAuthoredDocsInput>, Prisma.UserUncheckedUpdateWithoutAuthoredDocsInput>
 }
 
-export type UserCreateNestedOneWithoutProjectsInput = {
-  create?: Prisma.XOR<Prisma.UserCreateWithoutProjectsInput, Prisma.UserUncheckedCreateWithoutProjectsInput>
-  connectOrCreate?: Prisma.UserCreateOrConnectWithoutProjectsInput
+export type UserCreateNestedOneWithoutResearchInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutResearchInput, Prisma.UserUncheckedCreateWithoutResearchInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutResearchInput
   connect?: Prisma.UserWhereUniqueInput
 }
 
-export type UserUpdateOneRequiredWithoutProjectsNestedInput = {
-  create?: Prisma.XOR<Prisma.UserCreateWithoutProjectsInput, Prisma.UserUncheckedCreateWithoutProjectsInput>
-  connectOrCreate?: Prisma.UserCreateOrConnectWithoutProjectsInput
-  upsert?: Prisma.UserUpsertWithoutProjectsInput
+export type UserUpdateOneRequiredWithoutResearchNestedInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutResearchInput, Prisma.UserUncheckedCreateWithoutResearchInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutResearchInput
+  upsert?: Prisma.UserUpsertWithoutResearchInput
   connect?: Prisma.UserWhereUniqueInput
-  update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutProjectsInput, Prisma.UserUpdateWithoutProjectsInput>, Prisma.UserUncheckedUpdateWithoutProjectsInput>
+  update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutResearchInput, Prisma.UserUpdateWithoutResearchInput>, Prisma.UserUncheckedUpdateWithoutResearchInput>
 }
 
 export type UserCreateNestedOneWithoutSessionsInput = {
@@ -699,7 +699,7 @@ export type UserCreateWithoutActivitiesInput = {
   deletionScheduledFor?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
-  projects?: Prisma.ProjectCreateNestedManyWithoutUserInput
+  research?: Prisma.ResearchCreateNestedManyWithoutUserInput
   sessions?: Prisma.SessionCreateNestedManyWithoutUserInput
   authoredDocs?: Prisma.DocumentCreateNestedManyWithoutAuthorInput
 }
@@ -722,7 +722,7 @@ export type UserUncheckedCreateWithoutActivitiesInput = {
   deletionScheduledFor?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
-  projects?: Prisma.ProjectUncheckedCreateNestedManyWithoutUserInput
+  research?: Prisma.ResearchUncheckedCreateNestedManyWithoutUserInput
   sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput
   authoredDocs?: Prisma.DocumentUncheckedCreateNestedManyWithoutAuthorInput
 }
@@ -761,7 +761,7 @@ export type UserUpdateWithoutActivitiesInput = {
   deletionScheduledFor?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  projects?: Prisma.ProjectUpdateManyWithoutUserNestedInput
+  research?: Prisma.ResearchUpdateManyWithoutUserNestedInput
   sessions?: Prisma.SessionUpdateManyWithoutUserNestedInput
   authoredDocs?: Prisma.DocumentUpdateManyWithoutAuthorNestedInput
 }
@@ -784,7 +784,7 @@ export type UserUncheckedUpdateWithoutActivitiesInput = {
   deletionScheduledFor?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  projects?: Prisma.ProjectUncheckedUpdateManyWithoutUserNestedInput
+  research?: Prisma.ResearchUncheckedUpdateManyWithoutUserNestedInput
   sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput
   authoredDocs?: Prisma.DocumentUncheckedUpdateManyWithoutAuthorNestedInput
 }
@@ -807,7 +807,7 @@ export type UserCreateWithoutAuthoredDocsInput = {
   deletionScheduledFor?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
-  projects?: Prisma.ProjectCreateNestedManyWithoutUserInput
+  research?: Prisma.ResearchCreateNestedManyWithoutUserInput
   activities?: Prisma.ActivityCreateNestedManyWithoutUserInput
   sessions?: Prisma.SessionCreateNestedManyWithoutUserInput
 }
@@ -830,7 +830,7 @@ export type UserUncheckedCreateWithoutAuthoredDocsInput = {
   deletionScheduledFor?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
-  projects?: Prisma.ProjectUncheckedCreateNestedManyWithoutUserInput
+  research?: Prisma.ResearchUncheckedCreateNestedManyWithoutUserInput
   activities?: Prisma.ActivityUncheckedCreateNestedManyWithoutUserInput
   sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput
 }
@@ -869,7 +869,7 @@ export type UserUpdateWithoutAuthoredDocsInput = {
   deletionScheduledFor?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  projects?: Prisma.ProjectUpdateManyWithoutUserNestedInput
+  research?: Prisma.ResearchUpdateManyWithoutUserNestedInput
   activities?: Prisma.ActivityUpdateManyWithoutUserNestedInput
   sessions?: Prisma.SessionUpdateManyWithoutUserNestedInput
 }
@@ -892,12 +892,12 @@ export type UserUncheckedUpdateWithoutAuthoredDocsInput = {
   deletionScheduledFor?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  projects?: Prisma.ProjectUncheckedUpdateManyWithoutUserNestedInput
+  research?: Prisma.ResearchUncheckedUpdateManyWithoutUserNestedInput
   activities?: Prisma.ActivityUncheckedUpdateManyWithoutUserNestedInput
   sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput
 }
 
-export type UserCreateWithoutProjectsInput = {
+export type UserCreateWithoutResearchInput = {
   id?: string
   name: string
   email: string
@@ -920,7 +920,7 @@ export type UserCreateWithoutProjectsInput = {
   authoredDocs?: Prisma.DocumentCreateNestedManyWithoutAuthorInput
 }
 
-export type UserUncheckedCreateWithoutProjectsInput = {
+export type UserUncheckedCreateWithoutResearchInput = {
   id?: string
   name: string
   email: string
@@ -943,23 +943,23 @@ export type UserUncheckedCreateWithoutProjectsInput = {
   authoredDocs?: Prisma.DocumentUncheckedCreateNestedManyWithoutAuthorInput
 }
 
-export type UserCreateOrConnectWithoutProjectsInput = {
+export type UserCreateOrConnectWithoutResearchInput = {
   where: Prisma.UserWhereUniqueInput
-  create: Prisma.XOR<Prisma.UserCreateWithoutProjectsInput, Prisma.UserUncheckedCreateWithoutProjectsInput>
+  create: Prisma.XOR<Prisma.UserCreateWithoutResearchInput, Prisma.UserUncheckedCreateWithoutResearchInput>
 }
 
-export type UserUpsertWithoutProjectsInput = {
-  update: Prisma.XOR<Prisma.UserUpdateWithoutProjectsInput, Prisma.UserUncheckedUpdateWithoutProjectsInput>
-  create: Prisma.XOR<Prisma.UserCreateWithoutProjectsInput, Prisma.UserUncheckedCreateWithoutProjectsInput>
+export type UserUpsertWithoutResearchInput = {
+  update: Prisma.XOR<Prisma.UserUpdateWithoutResearchInput, Prisma.UserUncheckedUpdateWithoutResearchInput>
+  create: Prisma.XOR<Prisma.UserCreateWithoutResearchInput, Prisma.UserUncheckedCreateWithoutResearchInput>
   where?: Prisma.UserWhereInput
 }
 
-export type UserUpdateToOneWithWhereWithoutProjectsInput = {
+export type UserUpdateToOneWithWhereWithoutResearchInput = {
   where?: Prisma.UserWhereInput
-  data: Prisma.XOR<Prisma.UserUpdateWithoutProjectsInput, Prisma.UserUncheckedUpdateWithoutProjectsInput>
+  data: Prisma.XOR<Prisma.UserUpdateWithoutResearchInput, Prisma.UserUncheckedUpdateWithoutResearchInput>
 }
 
-export type UserUpdateWithoutProjectsInput = {
+export type UserUpdateWithoutResearchInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
   email?: Prisma.StringFieldUpdateOperationsInput | string
@@ -982,7 +982,7 @@ export type UserUpdateWithoutProjectsInput = {
   authoredDocs?: Prisma.DocumentUpdateManyWithoutAuthorNestedInput
 }
 
-export type UserUncheckedUpdateWithoutProjectsInput = {
+export type UserUncheckedUpdateWithoutResearchInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
   email?: Prisma.StringFieldUpdateOperationsInput | string
@@ -1023,7 +1023,7 @@ export type UserCreateWithoutSessionsInput = {
   deletionScheduledFor?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
-  projects?: Prisma.ProjectCreateNestedManyWithoutUserInput
+  research?: Prisma.ResearchCreateNestedManyWithoutUserInput
   activities?: Prisma.ActivityCreateNestedManyWithoutUserInput
   authoredDocs?: Prisma.DocumentCreateNestedManyWithoutAuthorInput
 }
@@ -1046,7 +1046,7 @@ export type UserUncheckedCreateWithoutSessionsInput = {
   deletionScheduledFor?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
-  projects?: Prisma.ProjectUncheckedCreateNestedManyWithoutUserInput
+  research?: Prisma.ResearchUncheckedCreateNestedManyWithoutUserInput
   activities?: Prisma.ActivityUncheckedCreateNestedManyWithoutUserInput
   authoredDocs?: Prisma.DocumentUncheckedCreateNestedManyWithoutAuthorInput
 }
@@ -1085,7 +1085,7 @@ export type UserUpdateWithoutSessionsInput = {
   deletionScheduledFor?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  projects?: Prisma.ProjectUpdateManyWithoutUserNestedInput
+  research?: Prisma.ResearchUpdateManyWithoutUserNestedInput
   activities?: Prisma.ActivityUpdateManyWithoutUserNestedInput
   authoredDocs?: Prisma.DocumentUpdateManyWithoutAuthorNestedInput
 }
@@ -1108,7 +1108,7 @@ export type UserUncheckedUpdateWithoutSessionsInput = {
   deletionScheduledFor?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  projects?: Prisma.ProjectUncheckedUpdateManyWithoutUserNestedInput
+  research?: Prisma.ResearchUncheckedUpdateManyWithoutUserNestedInput
   activities?: Prisma.ActivityUncheckedUpdateManyWithoutUserNestedInput
   authoredDocs?: Prisma.DocumentUncheckedUpdateManyWithoutAuthorNestedInput
 }
@@ -1119,14 +1119,14 @@ export type UserUncheckedUpdateWithoutSessionsInput = {
  */
 
 export type UserCountOutputType = {
-  projects: number
+  research: number
   activities: number
   sessions: number
   authoredDocs: number
 }
 
 export type UserCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  projects?: boolean | UserCountOutputTypeCountProjectsArgs
+  research?: boolean | UserCountOutputTypeCountResearchArgs
   activities?: boolean | UserCountOutputTypeCountActivitiesArgs
   sessions?: boolean | UserCountOutputTypeCountSessionsArgs
   authoredDocs?: boolean | UserCountOutputTypeCountAuthoredDocsArgs
@@ -1145,8 +1145,8 @@ export type UserCountOutputTypeDefaultArgs<ExtArgs extends runtime.Types.Extensi
 /**
  * UserCountOutputType without action
  */
-export type UserCountOutputTypeCountProjectsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  where?: Prisma.ProjectWhereInput
+export type UserCountOutputTypeCountResearchArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.ResearchWhereInput
 }
 
 /**
@@ -1189,7 +1189,7 @@ export type UserSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = r
   deletionScheduledFor?: boolean
   createdAt?: boolean
   updatedAt?: boolean
-  projects?: boolean | Prisma.User$projectsArgs<ExtArgs>
+  research?: boolean | Prisma.User$researchArgs<ExtArgs>
   activities?: boolean | Prisma.User$activitiesArgs<ExtArgs>
   sessions?: boolean | Prisma.User$sessionsArgs<ExtArgs>
   authoredDocs?: boolean | Prisma.User$authoredDocsArgs<ExtArgs>
@@ -1258,7 +1258,7 @@ export type UserSelectScalar = {
 
 export type UserOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "name" | "email" | "emailVerified" | "passwordHash" | "avatarUrl" | "role" | "status" | "group" | "theme" | "locale" | "passwordChangedAt" | "lastActiveAt" | "deletionRequestedAt" | "deletionScheduledFor" | "createdAt" | "updatedAt", ExtArgs["result"]["user"]>
 export type UserInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  projects?: boolean | Prisma.User$projectsArgs<ExtArgs>
+  research?: boolean | Prisma.User$researchArgs<ExtArgs>
   activities?: boolean | Prisma.User$activitiesArgs<ExtArgs>
   sessions?: boolean | Prisma.User$sessionsArgs<ExtArgs>
   authoredDocs?: boolean | Prisma.User$authoredDocsArgs<ExtArgs>
@@ -1270,7 +1270,7 @@ export type UserIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensi
 export type $UserPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "User"
   objects: {
-    projects: Prisma.$ProjectPayload<ExtArgs>[]
+    research: Prisma.$ResearchPayload<ExtArgs>[]
     activities: Prisma.$ActivityPayload<ExtArgs>[]
     sessions: Prisma.$SessionPayload<ExtArgs>[]
     authoredDocs: Prisma.$DocumentPayload<ExtArgs>[]
@@ -1687,7 +1687,7 @@ readonly fields: UserFieldRefs;
  */
 export interface Prisma__UserClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
-  projects<T extends Prisma.User$projectsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$projectsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ProjectPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  research<T extends Prisma.User$researchArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$researchArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ResearchPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   activities<T extends Prisma.User$activitiesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$activitiesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ActivityPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   sessions<T extends Prisma.User$sessionsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$sessionsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$SessionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   authoredDocs<T extends Prisma.User$authoredDocsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$authoredDocsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$DocumentPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
@@ -2125,27 +2125,27 @@ export type UserDeleteManyArgs<ExtArgs extends runtime.Types.Extensions.Internal
 }
 
 /**
- * User.projects
+ * User.research
  */
-export type User$projectsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+export type User$researchArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   /**
-   * Select specific fields to fetch from the Project
+   * Select specific fields to fetch from the Research
    */
-  select?: Prisma.ProjectSelect<ExtArgs> | null
+  select?: Prisma.ResearchSelect<ExtArgs> | null
   /**
-   * Omit specific fields from the Project
+   * Omit specific fields from the Research
    */
-  omit?: Prisma.ProjectOmit<ExtArgs> | null
+  omit?: Prisma.ResearchOmit<ExtArgs> | null
   /**
    * Choose, which related nodes to fetch as well
    */
-  include?: Prisma.ProjectInclude<ExtArgs> | null
-  where?: Prisma.ProjectWhereInput
-  orderBy?: Prisma.ProjectOrderByWithRelationInput | Prisma.ProjectOrderByWithRelationInput[]
-  cursor?: Prisma.ProjectWhereUniqueInput
+  include?: Prisma.ResearchInclude<ExtArgs> | null
+  where?: Prisma.ResearchWhereInput
+  orderBy?: Prisma.ResearchOrderByWithRelationInput | Prisma.ResearchOrderByWithRelationInput[]
+  cursor?: Prisma.ResearchWhereUniqueInput
   take?: number
   skip?: number
-  distinct?: Prisma.ProjectScalarFieldEnum | Prisma.ProjectScalarFieldEnum[]
+  distinct?: Prisma.ResearchScalarFieldEnum | Prisma.ResearchScalarFieldEnum[]
 }
 
 /**

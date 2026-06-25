@@ -24,6 +24,7 @@ export class DeltaService {
     return this.prisma.research.update({
       where: { id },
       data: {
+        status: 'IN_PROGRESS',
         algorithmDelta: {
           update: {
             data: data as unknown as InputJsonValue,
@@ -69,7 +70,7 @@ export class DeltaService {
     const { data, w, eta } = algorithm;
     let { i, j, k, epoch, isTrained } = algorithm;
 
-    let error = (algorithm.error ?? 0) as number;
+    let error = algorithm.error ?? 0;
     const epsilon = (algorithm.epsilon ?? [0, 0, 0]) as number[];
 
     const newW = (w as number[][]).map((row) => [...row]);
@@ -217,17 +218,14 @@ export class DeltaService {
 
     const research = await this.prisma.research.findUnique({
       where: { id },
-      include: { algorithm: true },
+      include: { algorithmDelta: true },
     });
-    const current = research?.algorithm?.activeStage as Stage | undefined;
+    const current = research?.algorithmDelta?.activeStage as Stage | undefined;
     if (!current) {
       throw new NotFoundException('Research or its stage not found');
     }
 
     const nextStage = STAGE_TRANSITIONS[current];
-    if (!current) {
-      throw new NotFoundException('Research or its stage not found');
-    }
 
     if (!nextStage) {
       throw new BadRequestException(
@@ -235,19 +233,23 @@ export class DeltaService {
       );
     }
 
+    const isRecognition = nextStage === 'recognition';
+
     await this.prisma.research.update({
       where: { id },
       data: {
-        algorithm: {
-          update: {
-            activeStage: nextStage,
-          },
+        status: isRecognition ? 'TRAINED' : 'IN_PROGRESS',
+        algorithmDelta: {
+          update: { activeStage: nextStage },
         },
+        ...(isRecognition && {
+          activities: {
+            create: { type: 'TRAINING_COMPLETED', userId: research!.userId },
+          },
+        }),
       },
     });
 
-    return {
-      success: true,
-    };
+    return { success: true };
   }
 }

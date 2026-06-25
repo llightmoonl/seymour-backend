@@ -5,12 +5,12 @@ enum ActivityType {
 }
 
 model Activity {
-  id        String       @id @default(uuid())
-  type      ActivityType
-  projectId String
-  project   Project      @relation(fields: [projectId], references: [id], onDelete: Cascade)
-  userId    String
-  user      User         @relation(fields: [userId], references: [id], onDelete: Cascade)
+  id         String       @id @default(uuid())
+  type       ActivityType
+  researchId String       @map("research_id")
+  research   Research     @relation(fields: [researchId], references: [id], onDelete: Cascade)
+  userId     String
+  user       User         @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   createdAt DateTime @default(now())
 

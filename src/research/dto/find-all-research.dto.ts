@@ -1,4 +1,4 @@
-import { IsInt, IsOptional, IsString } from 'class-validator';
+import { IsInt, IsOptional, IsString, Matches } from 'class-validator';
 import { Type } from 'class-transformer';
 
 export class FindAllResearchDto {
@@ -17,4 +17,13 @@ export class FindAllResearchDto {
   @IsOptional()
   @IsString()
   filter?: string;
+
+  @IsOptional()
+  @IsString()
+  status?: string;
+
+  @IsOptional()
+  @IsString()
+  @Matches(/^\w+:(asc|desc)$/)
+  sort?: string = 'updatedAt:desc';
 }

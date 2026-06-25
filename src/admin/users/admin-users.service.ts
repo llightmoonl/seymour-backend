@@ -32,7 +32,9 @@ export class AdminUsersService {
           select: { group: true },
           distinct: ['group'],
         }),
-        this.prisma.user.count({ where: { role: { in: ['TEACHER', 'ADMIN'] } } }),
+        this.prisma.user.count({
+          where: { role: { in: ['TEACHER', 'ADMIN'] } },
+        }),
       ]);
 
     return {
@@ -46,13 +48,23 @@ export class AdminUsersService {
   }
 
   async findAll(dto: QueryUsersDto) {
-    const { page = 1, limit = 20, search, role, status, sort = 'createdAt:desc' } = dto;
+    const {
+      page = 1,
+      limit = 20,
+      search,
+      role,
+      status,
+      sort = 'createdAt:desc',
+    } = dto;
     const [field, direction] = sort.split(':') as [string, 'asc' | 'desc'];
     const skip = (page - 1) * limit;
 
     const where: Prisma.UserWhereInput = {};
     if (role) where.role = { equals: role as Prisma.EnumRoleFilter['equals'] };
-    if (status) where.status = { equals: status as Prisma.EnumUserStatusFilter['equals'] };
+    if (status)
+      where.status = {
+        equals: status as Prisma.EnumUserStatusFilter['equals'],
+      };
     if (search) {
       where.OR = [
         { name: { contains: search, mode: 'insensitive' } },
@@ -76,7 +88,7 @@ export class AdminUsersService {
           status: true,
           createdAt: true,
           lastActiveAt: true,
-          _count: { select: { projects: true } },
+          _count: { select: { research: true } },
         },
       }),
       this.prisma.user.count({ where }),
@@ -89,7 +101,7 @@ export class AdminUsersService {
       role: u.role,
       group: u.group,
       status: u.status,
-      projectsCount: u._count.projects,
+      projectsCount: u._count.research,
       registeredAt: u.createdAt,
       lastActiveAt: u.lastActiveAt,
     }));
@@ -109,14 +121,25 @@ export class AdminUsersService {
           passwordHash,
           role: dto.role as Prisma.EnumRoleFilter['equals'],
           group: dto.group,
-          status: (dto.status ?? 'ACTIVE') as Prisma.EnumUserStatusFilter['equals'],
+          status: (dto.status ??
+            'ACTIVE') as Prisma.EnumUserStatusFilter['equals'],
         },
-        select: { id: true, name: true, email: true, role: true, status: true, createdAt: true },
+        select: {
+          id: true,
+          name: true,
+          email: true,
+          role: true,
+          status: true,
+          createdAt: true,
+        },
       });
       console.log(`[DEV] Temporary password for ${dto.email}: ${tempPassword}`);
       return user;
     } catch (e) {
-      if (e instanceof Prisma.PrismaClientKnownRequestError && e.code === 'P2002') {
+      if (
+        e instanceof Prisma.PrismaClientKnownRequestError &&
+        e.code === 'P2002'
+      ) {
         throw new ConflictException('Email уже занят');
       }
       throw e;
@@ -134,11 +157,19 @@ export class AdminUsersService {
           group: dto.group,
           status: dto.status as Prisma.EnumUserStatusFilter['equals'],
         },
-        select: { id: true, name: true, email: true, role: true, group: true, status: true },
+        select: {
+          id: true,
+          name: true,
+          email: true,
+          role: true,
+          group: true,
+          status: true,
+        },
       });
     } catch (e) {
       if (e instanceof Prisma.PrismaClientKnownRequestError) {
-        if (e.code === 'P2025') throw new NotFoundException('Пользователь не найден');
+        if (e.code === 'P2025')
+          throw new NotFoundException('Пользователь не найден');
         if (e.code === 'P2002') throw new ConflictException('Email уже занят');
       }
       throw e;
@@ -146,11 +177,15 @@ export class AdminUsersService {
   }
 
   async remove(id: string, currentUserId: string) {
-    if (id === currentUserId) throw new BadRequestException('Нельзя удалить свой аккаунт');
+    if (id === currentUserId)
+      throw new BadRequestException('Нельзя удалить свой аккаунт');
     try {
       await this.prisma.user.delete({ where: { id } });
     } catch (e) {
-      if (e instanceof Prisma.PrismaClientKnownRequestError && e.code === 'P2025') {
+      if (
+        e instanceof Prisma.PrismaClientKnownRequestError &&
+        e.code === 'P2025'
+      ) {
         throw new NotFoundException('Пользователь не найден');
       }
       throw e;
@@ -158,7 +193,7 @@ export class AdminUsersService {
     return null;
   }
 
-  async getUserProjects(id: string) {
+  async getUserResearch(id: string) {
     const user = await this.prisma.user.findUnique({
       where: { id },
       select: {
@@ -167,15 +202,12 @@ export class AdminUsersService {
         email: true,
         role: true,
         createdAt: true,
-        projects: {
+        research: {
           select: {
             id: true,
-            name: true,
-            rule: true,
+            title: true,
+            type: true,
             status: true,
-            examples: true,
-            epochs: true,
-            accuracy: true,
             updatedAt: true,
           },
           orderBy: { updatedAt: 'desc' },
@@ -185,40 +217,46 @@ export class AdminUsersService {
 
     if (!user) throw new NotFoundException('Пользователь не найден');
 
-    const byRule = (rule: string) =>
-      user.projects.filter((p) => p.rule === rule && p.accuracy !== null);
-    const avg = (arr: { accuracy: number | null }[]) =>
-      arr.length ? arr.reduce((s, p) => s + (p.accuracy ?? 0), 0) / arr.length : null;
-
     return {
-      user: { id: user.id, name: user.name, email: user.email, role: user.role, registeredAt: user.createdAt },
-      summary: {
-        total: user.projects.length,
-        hebbAccuracyAvg: avg(byRule('HEBB')),
-        deltaAccuracyAvg: avg(byRule('DELTA')),
-        backpropAccuracyAvg: avg(byRule('BACKPROP')),
+      user: {
+        id: user.id,
+        name: user.name,
+        email: user.email,
+        role: user.role,
+        registeredAt: user.createdAt,
       },
-      projects: user.projects,
+      summary: {
+        total: user.research.length,
+        trained: user.research.filter((r) => r.status === 'TRAINED').length,
+        inProgress: user.research.filter((r) => r.status === 'IN_PROGRESS')
+          .length,
+      },
+      research: user.research,
     };
   }
 
-  async exportUserProjectsCsv(id: string, res: Response) {
-    const data = await this.getUserProjects(id);
-    const rows = data.projects.map((p) =>
+  async exportUserResearchCsv(id: string, res: Response) {
+    const data = await this.getUserResearch(id);
+    const typeMap: Record<number, string> = {
+      0: 'HEBBIAN',
+      1: 'DELTA',
+      2: 'BACKPROPAGATION',
+    };
+    const rows = data.research.map((r) =>
       [
-        p.id,
-        p.name,
-        p.rule,
-        p.status,
-        p.examples ?? '',
-        p.epochs ?? '',
-        p.accuracy ?? '',
-        p.updatedAt.toISOString(),
+        r.id,
+        r.title,
+        typeMap[r.type] ?? r.type,
+        r.status,
+        r.updatedAt.toISOString(),
       ].join(','),
     );
-    const csv = ['id,name,rule,status,examples,epochs,accuracy,updatedAt', ...rows].join('\n');
+    const csv = ['id,title,type,status,updatedAt', ...rows].join('\n');
     res.setHeader('Content-Type', 'text/csv');
-    res.setHeader('Content-Disposition', `attachment; filename="user-${id}-projects.csv"`);
+    res.setHeader(
+      'Content-Disposition',
+      `attachment; filename="user-${id}-research.csv"`,
+    );
     res.send(csv);
   }
 
@@ -246,7 +284,10 @@ export class AdminUsersService {
         u.registeredAt.toISOString(),
       ].join(','),
     );
-    const csv = ['id,name,email,role,group,status,projectsCount,registeredAt', ...rows].join('\n');
+    const csv = [
+      'id,name,email,role,group,status,projectsCount,registeredAt',
+      ...rows,
+    ].join('\n');
     res.setHeader('Content-Type', 'text/csv');
     res.setHeader('Content-Disposition', 'attachment; filename="users.csv"');
     res.send(csv);

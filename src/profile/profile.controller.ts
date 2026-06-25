@@ -26,7 +26,10 @@ export class ProfileController {
   }
 
   @Patch()
-  updateProfile(@CurrentUser('id') userId: string, @Body() dto: UpdateProfileDto) {
+  updateProfile(
+    @CurrentUser('id') userId: string,
+    @Body() dto: UpdateProfileDto,
+  ) {
     return this.profileService.updateProfile(userId, dto);
   }
 
@@ -37,7 +40,10 @@ export class ProfileController {
 
   @Post('email/verify/confirm')
   @ApiBody({ type: VerifyTokenDto })
-  confirmEmailVerify(@CurrentUser('id') userId: string, @Body('token') token: string) {
+  confirmEmailVerify(
+    @CurrentUser('id') userId: string,
+    @Body('token') token: string,
+  ) {
     return this.profileService.confirmEmailVerify(userId, token);
   }
 }

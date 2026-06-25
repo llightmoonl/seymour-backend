@@ -1,9 +1,22 @@
-import { Body, Controller, Delete, HttpCode, HttpStatus, Res, UseGuards } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Delete,
+  HttpCode,
+  HttpStatus,
+  Res,
+  UseGuards,
+} from '@nestjs/common';
 import type { Response } from 'express';
 import { AccountService } from './account.service.js';
 import { JwtAuthGuard } from '../auth/jwt-auth.guard.js';
 import { CurrentUser } from '../common/decorators/current-user.decorator.js';
-import { ApiBody, ApiCookieAuth, ApiProperty, ApiPropertyOptional, ApiTags } from '@nestjs/swagger';
+import {
+  ApiBody,
+  ApiCookieAuth,
+  ApiPropertyOptional,
+  ApiTags,
+} from '@nestjs/swagger';
 import { IsOptional, IsString } from 'class-validator';
 
 class DeleteAccountDto {

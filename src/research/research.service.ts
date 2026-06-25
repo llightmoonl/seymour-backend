@@ -8,9 +8,10 @@ import { CreateResearchDto, FindAllResearchDto } from './dto/index.js';
 export class ResearchService {
   constructor(private prisma: PrismaService) {}
 
-  async create(data: CreateResearchDto) {
-    const isDelta = data.type === 1;
-    const isBackpropagation = data.type === 2;
+  async create(userId: string, data: CreateResearchDto) {
+    const type = data.type ?? 0;
+    const isDelta = type === 1;
+    const isBackpropagation = type === 2;
 
     let algorithmRelation: Partial<Prisma.ResearchCreateInput>;
 
@@ -64,43 +65,54 @@ export class ResearchService {
       };
     }
 
-    const newData: Prisma.ResearchCreateInput = {
-      ...data,
-      ...algorithmRelation,
-    };
-
-    return this.prisma.research.create({ data: newData });
+    return this.prisma.research.create({
+      data: {
+        title: data.title,
+        type,
+        user: { connect: { id: userId } },
+        ...algorithmRelation,
+      },
+    });
   }
 
-  async findAll(dto: FindAllResearchDto) {
-    const { page, limit, search, filter } = dto;
+  async findAll(userId: string, dto: FindAllResearchDto) {
+    const {
+      page,
+      limit,
+      search,
+      filter,
+      status,
+      sort = 'updatedAt:desc',
+    } = dto;
+    const [field, direction] = sort.split(':') as [string, 'asc' | 'desc'];
+
     const filterMap: Record<string, number> = {
       hebbian: 0,
       delta: 1,
       backpropagation: 2,
     };
 
-    const whereFilter =
-      filter && filter !== 'all' && filterMap[filter] !== undefined
-        ? { type: filterMap[filter] }
-        : {};
+    const where: Prisma.ResearchWhereInput = { userId };
 
-    const whereSearch = search
-      ? { title: { contains: search, mode: 'insensitive' as const } }
-      : {};
+    if (filter && filter !== 'all' && filterMap[filter] !== undefined)
+      where.type = filterMap[filter];
 
-    const where = { ...whereFilter, ...whereSearch };
+    if (search)
+      where.title = { contains: search, mode: 'insensitive' as const };
+
+    if (status)
+      where.status = status as Prisma.EnumProjectStatusFilter['equals'];
+
     const [research, totalCount] = await this.prisma.$transaction([
       this.prisma.research.findMany({
-        orderBy: {
-          updatedAt: 'desc',
-        },
         where,
+        orderBy: { [field]: direction },
         skip: (page - 1) * limit,
         take: +limit,
       }),
       this.prisma.research.count({ where }),
     ]);
+
     const totalPages = Math.ceil(totalCount / limit);
 
     return {
@@ -114,21 +126,5 @@ export class ResearchService {
         hasPreviousPage: page > 1,
       },
     };
-  }
-
-  getProgress(id: string) {
-    return this.prisma.researchTab.findMany({
-      where: { researchId: id },
-      select: { key: true, completed: true },
-    });
-  }
-
-  completeTab(id: string, tab: string) {
-    return this.prisma.researchTab.upsert({
-      where: { researchId_key: { researchId: id, key: tab } },
-      create: { researchId: id, key: tab, completed: true },
-      update: { completed: true },
-      select: { key: true, completed: true },
-    });
   }
 }

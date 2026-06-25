@@ -25,6 +25,7 @@ export class HebbianService {
     return this.prisma.research.update({
       where: { id },
       data: {
+        status: 'IN_PROGRESS',
         algorithm: {
           update: {
             data: data as unknown as InputJsonValue,
@@ -232,19 +233,23 @@ export class HebbianService {
       );
     }
 
+    const isRecognition = nextStage === 'recognition';
+
     await this.prisma.research.update({
       where: { id },
       data: {
+        status: isRecognition ? 'TRAINED' : 'IN_PROGRESS',
         algorithm: {
-          update: {
-            activeStage: nextStage,
-          },
+          update: { activeStage: nextStage },
         },
+        ...(isRecognition && {
+          activities: {
+            create: { type: 'TRAINING_COMPLETED', userId: research!.userId },
+          },
+        }),
       },
     });
 
-    return {
-      success: true,
-    };
+    return { success: true };
   }
 }

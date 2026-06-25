@@ -1,31 +1,11 @@
 enum LearningRule {
-  HEBB
+  HEBBIAN
   DELTA
-  BACKPROP
+  BACKPROPAGATION
 }
 
 enum ProjectStatus {
   DRAFT
   IN_PROGRESS
   TRAINED
-}
-
-model Project {
-  id         String        @id @default(uuid())
-  name       String
-  rule       LearningRule
-  status     ProjectStatus @default(DRAFT)
-  accuracy   Float?
-  examples   Int?
-  epochs     Int?
-  userId     String
-  user       User          @relation(fields: [userId], references: [id], onDelete: Cascade)
-  activities Activity[]
-
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-
-  @@index([userId, status])
-  @@index([userId, rule])
-  @@map("projects")
 }

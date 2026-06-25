@@ -16,9 +16,16 @@ export class DocsService {
   async findOne(id: string) {
     const doc = await this.prisma.document.findUnique({
       where: { id },
-      select: { id: true, title: true, contentMd: true, status: true, updatedAt: true },
+      select: {
+        id: true,
+        title: true,
+        contentMd: true,
+        status: true,
+        updatedAt: true,
+      },
     });
-    if (!doc || doc.status !== 'PUBLISHED') throw new NotFoundException('Document not found');
+    if (!doc || doc.status !== 'PUBLISHED')
+      throw new NotFoundException('Document not found');
     return doc;
   }
 }

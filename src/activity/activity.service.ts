@@ -19,9 +19,9 @@ export class ActivityService {
         select: {
           id: true,
           type: true,
-          projectId: true,
+          researchId: true,
           createdAt: true,
-          project: { select: { name: true } },
+          research: { select: { title: true } },
         },
       }),
       this.prisma.activity.count({ where: { userId } }),
@@ -30,8 +30,8 @@ export class ActivityService {
     const mapped = items.map((a) => ({
       id: a.id,
       type: a.type,
-      projectId: a.projectId,
-      projectName: a.project.name,
+      researchId: a.researchId,
+      researchTitle: a.research.title,
       createdAt: a.createdAt,
     }));
 

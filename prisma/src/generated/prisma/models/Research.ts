@@ -44,6 +44,8 @@ export type ResearchMinAggregateOutputType = {
   id: string | null
   title: string | null
   type: number | null
+  status: $Enums.ProjectStatus | null
+  userId: string | null
   algorithmId: number | null
   algorithmDeltaId: number | null
   algorithmPropagationId: number | null
@@ -55,6 +57,8 @@ export type ResearchMaxAggregateOutputType = {
   id: string | null
   title: string | null
   type: number | null
+  status: $Enums.ProjectStatus | null
+  userId: string | null
   algorithmId: number | null
   algorithmDeltaId: number | null
   algorithmPropagationId: number | null
@@ -66,6 +70,8 @@ export type ResearchCountAggregateOutputType = {
   id: number
   title: number
   type: number
+  status: number
+  userId: number
   algorithmId: number
   algorithmDeltaId: number
   algorithmPropagationId: number
@@ -93,6 +99,8 @@ export type ResearchMinAggregateInputType = {
   id?: true
   title?: true
   type?: true
+  status?: true
+  userId?: true
   algorithmId?: true
   algorithmDeltaId?: true
   algorithmPropagationId?: true
@@ -104,6 +112,8 @@ export type ResearchMaxAggregateInputType = {
   id?: true
   title?: true
   type?: true
+  status?: true
+  userId?: true
   algorithmId?: true
   algorithmDeltaId?: true
   algorithmPropagationId?: true
@@ -115,6 +125,8 @@ export type ResearchCountAggregateInputType = {
   id?: true
   title?: true
   type?: true
+  status?: true
+  userId?: true
   algorithmId?: true
   algorithmDeltaId?: true
   algorithmPropagationId?: true
@@ -213,6 +225,8 @@ export type ResearchGroupByOutputType = {
   id: string
   title: string
   type: number
+  status: $Enums.ProjectStatus
+  userId: string
   algorithmId: number | null
   algorithmDeltaId: number | null
   algorithmPropagationId: number | null
@@ -247,30 +261,36 @@ export type ResearchWhereInput = {
   id?: Prisma.StringFilter<"Research"> | string
   title?: Prisma.StringFilter<"Research"> | string
   type?: Prisma.IntFilter<"Research"> | number
+  status?: Prisma.EnumProjectStatusFilter<"Research"> | $Enums.ProjectStatus
+  userId?: Prisma.StringFilter<"Research"> | string
   algorithmId?: Prisma.IntNullableFilter<"Research"> | number | null
   algorithmDeltaId?: Prisma.IntNullableFilter<"Research"> | number | null
   algorithmPropagationId?: Prisma.IntNullableFilter<"Research"> | number | null
   createdAt?: Prisma.DateTimeFilter<"Research"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Research"> | Date | string
+  user?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
   algorithm?: Prisma.XOR<Prisma.AlgorithmNullableScalarRelationFilter, Prisma.AlgorithmWhereInput> | null
   algorithmDelta?: Prisma.XOR<Prisma.AlgorithmDeltaNullableScalarRelationFilter, Prisma.AlgorithmDeltaWhereInput> | null
   algorithmPropagation?: Prisma.XOR<Prisma.AlgorithmPropagationNullableScalarRelationFilter, Prisma.AlgorithmPropagationWhereInput> | null
-  tabs?: Prisma.ResearchTabListRelationFilter
+  activities?: Prisma.ActivityListRelationFilter
 }
 
 export type ResearchOrderByWithRelationInput = {
   id?: Prisma.SortOrder
   title?: Prisma.SortOrder
   type?: Prisma.SortOrder
+  status?: Prisma.SortOrder
+  userId?: Prisma.SortOrder
   algorithmId?: Prisma.SortOrderInput | Prisma.SortOrder
   algorithmDeltaId?: Prisma.SortOrderInput | Prisma.SortOrder
   algorithmPropagationId?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
+  user?: Prisma.UserOrderByWithRelationInput
   algorithm?: Prisma.AlgorithmOrderByWithRelationInput
   algorithmDelta?: Prisma.AlgorithmDeltaOrderByWithRelationInput
   algorithmPropagation?: Prisma.AlgorithmPropagationOrderByWithRelationInput
-  tabs?: Prisma.ResearchTabOrderByRelationAggregateInput
+  activities?: Prisma.ActivityOrderByRelationAggregateInput
 }
 
 export type ResearchWhereUniqueInput = Prisma.AtLeast<{
@@ -283,18 +303,23 @@ export type ResearchWhereUniqueInput = Prisma.AtLeast<{
   NOT?: Prisma.ResearchWhereInput | Prisma.ResearchWhereInput[]
   title?: Prisma.StringFilter<"Research"> | string
   type?: Prisma.IntFilter<"Research"> | number
+  status?: Prisma.EnumProjectStatusFilter<"Research"> | $Enums.ProjectStatus
+  userId?: Prisma.StringFilter<"Research"> | string
   createdAt?: Prisma.DateTimeFilter<"Research"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Research"> | Date | string
+  user?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
   algorithm?: Prisma.XOR<Prisma.AlgorithmNullableScalarRelationFilter, Prisma.AlgorithmWhereInput> | null
   algorithmDelta?: Prisma.XOR<Prisma.AlgorithmDeltaNullableScalarRelationFilter, Prisma.AlgorithmDeltaWhereInput> | null
   algorithmPropagation?: Prisma.XOR<Prisma.AlgorithmPropagationNullableScalarRelationFilter, Prisma.AlgorithmPropagationWhereInput> | null
-  tabs?: Prisma.ResearchTabListRelationFilter
+  activities?: Prisma.ActivityListRelationFilter
 }, "id" | "algorithmId" | "algorithmDeltaId" | "algorithmPropagationId">
 
 export type ResearchOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
   title?: Prisma.SortOrder
   type?: Prisma.SortOrder
+  status?: Prisma.SortOrder
+  userId?: Prisma.SortOrder
   algorithmId?: Prisma.SortOrderInput | Prisma.SortOrder
   algorithmDeltaId?: Prisma.SortOrderInput | Prisma.SortOrder
   algorithmPropagationId?: Prisma.SortOrderInput | Prisma.SortOrder
@@ -314,6 +339,8 @@ export type ResearchScalarWhereWithAggregatesInput = {
   id?: Prisma.StringWithAggregatesFilter<"Research"> | string
   title?: Prisma.StringWithAggregatesFilter<"Research"> | string
   type?: Prisma.IntWithAggregatesFilter<"Research"> | number
+  status?: Prisma.EnumProjectStatusWithAggregatesFilter<"Research"> | $Enums.ProjectStatus
+  userId?: Prisma.StringWithAggregatesFilter<"Research"> | string
   algorithmId?: Prisma.IntNullableWithAggregatesFilter<"Research"> | number | null
   algorithmDeltaId?: Prisma.IntNullableWithAggregatesFilter<"Research"> | number | null
   algorithmPropagationId?: Prisma.IntNullableWithAggregatesFilter<"Research"> | number | null
@@ -325,54 +352,64 @@ export type ResearchCreateInput = {
   id?: string
   title: string
   type: number
+  status?: $Enums.ProjectStatus
   createdAt?: Date | string
   updatedAt?: Date | string
+  user: Prisma.UserCreateNestedOneWithoutResearchInput
   algorithm?: Prisma.AlgorithmCreateNestedOneWithoutResearchInput
   algorithmDelta?: Prisma.AlgorithmDeltaCreateNestedOneWithoutResearchInput
   algorithmPropagation?: Prisma.AlgorithmPropagationCreateNestedOneWithoutResearchInput
-  tabs?: Prisma.ResearchTabCreateNestedManyWithoutResearchInput
+  activities?: Prisma.ActivityCreateNestedManyWithoutResearchInput
 }
 
 export type ResearchUncheckedCreateInput = {
   id?: string
   title: string
   type: number
+  status?: $Enums.ProjectStatus
+  userId: string
   algorithmId?: number | null
   algorithmDeltaId?: number | null
   algorithmPropagationId?: number | null
   createdAt?: Date | string
   updatedAt?: Date | string
-  tabs?: Prisma.ResearchTabUncheckedCreateNestedManyWithoutResearchInput
+  activities?: Prisma.ActivityUncheckedCreateNestedManyWithoutResearchInput
 }
 
 export type ResearchUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   title?: Prisma.StringFieldUpdateOperationsInput | string
   type?: Prisma.IntFieldUpdateOperationsInput | number
+  status?: Prisma.EnumProjectStatusFieldUpdateOperationsInput | $Enums.ProjectStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  user?: Prisma.UserUpdateOneRequiredWithoutResearchNestedInput
   algorithm?: Prisma.AlgorithmUpdateOneWithoutResearchNestedInput
   algorithmDelta?: Prisma.AlgorithmDeltaUpdateOneWithoutResearchNestedInput
   algorithmPropagation?: Prisma.AlgorithmPropagationUpdateOneWithoutResearchNestedInput
-  tabs?: Prisma.ResearchTabUpdateManyWithoutResearchNestedInput
+  activities?: Prisma.ActivityUpdateManyWithoutResearchNestedInput
 }
 
 export type ResearchUncheckedUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   title?: Prisma.StringFieldUpdateOperationsInput | string
   type?: Prisma.IntFieldUpdateOperationsInput | number
+  status?: Prisma.EnumProjectStatusFieldUpdateOperationsInput | $Enums.ProjectStatus
+  userId?: Prisma.StringFieldUpdateOperationsInput | string
   algorithmId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   algorithmDeltaId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   algorithmPropagationId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  tabs?: Prisma.ResearchTabUncheckedUpdateManyWithoutResearchNestedInput
+  activities?: Prisma.ActivityUncheckedUpdateManyWithoutResearchNestedInput
 }
 
 export type ResearchCreateManyInput = {
   id?: string
   title: string
   type: number
+  status?: $Enums.ProjectStatus
+  userId: string
   algorithmId?: number | null
   algorithmDeltaId?: number | null
   algorithmPropagationId?: number | null
@@ -384,6 +421,7 @@ export type ResearchUpdateManyMutationInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   title?: Prisma.StringFieldUpdateOperationsInput | string
   type?: Prisma.IntFieldUpdateOperationsInput | number
+  status?: Prisma.EnumProjectStatusFieldUpdateOperationsInput | $Enums.ProjectStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -392,11 +430,18 @@ export type ResearchUncheckedUpdateManyInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   title?: Prisma.StringFieldUpdateOperationsInput | string
   type?: Prisma.IntFieldUpdateOperationsInput | number
+  status?: Prisma.EnumProjectStatusFieldUpdateOperationsInput | $Enums.ProjectStatus
+  userId?: Prisma.StringFieldUpdateOperationsInput | string
   algorithmId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   algorithmDeltaId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   algorithmPropagationId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+}
+
+export type ResearchScalarRelationFilter = {
+  is?: Prisma.ResearchWhereInput
+  isNot?: Prisma.ResearchWhereInput
 }
 
 export type ResearchNullableScalarRelationFilter = {
@@ -408,6 +453,8 @@ export type ResearchCountOrderByAggregateInput = {
   id?: Prisma.SortOrder
   title?: Prisma.SortOrder
   type?: Prisma.SortOrder
+  status?: Prisma.SortOrder
+  userId?: Prisma.SortOrder
   algorithmId?: Prisma.SortOrder
   algorithmDeltaId?: Prisma.SortOrder
   algorithmPropagationId?: Prisma.SortOrder
@@ -426,6 +473,8 @@ export type ResearchMaxOrderByAggregateInput = {
   id?: Prisma.SortOrder
   title?: Prisma.SortOrder
   type?: Prisma.SortOrder
+  status?: Prisma.SortOrder
+  userId?: Prisma.SortOrder
   algorithmId?: Prisma.SortOrder
   algorithmDeltaId?: Prisma.SortOrder
   algorithmPropagationId?: Prisma.SortOrder
@@ -437,6 +486,8 @@ export type ResearchMinOrderByAggregateInput = {
   id?: Prisma.SortOrder
   title?: Prisma.SortOrder
   type?: Prisma.SortOrder
+  status?: Prisma.SortOrder
+  userId?: Prisma.SortOrder
   algorithmId?: Prisma.SortOrder
   algorithmDeltaId?: Prisma.SortOrder
   algorithmPropagationId?: Prisma.SortOrder
@@ -451,9 +502,28 @@ export type ResearchSumOrderByAggregateInput = {
   algorithmPropagationId?: Prisma.SortOrder
 }
 
-export type ResearchScalarRelationFilter = {
-  is?: Prisma.ResearchWhereInput
-  isNot?: Prisma.ResearchWhereInput
+export type ResearchListRelationFilter = {
+  every?: Prisma.ResearchWhereInput
+  some?: Prisma.ResearchWhereInput
+  none?: Prisma.ResearchWhereInput
+}
+
+export type ResearchOrderByRelationAggregateInput = {
+  _count?: Prisma.SortOrder
+}
+
+export type ResearchCreateNestedOneWithoutActivitiesInput = {
+  create?: Prisma.XOR<Prisma.ResearchCreateWithoutActivitiesInput, Prisma.ResearchUncheckedCreateWithoutActivitiesInput>
+  connectOrCreate?: Prisma.ResearchCreateOrConnectWithoutActivitiesInput
+  connect?: Prisma.ResearchWhereUniqueInput
+}
+
+export type ResearchUpdateOneRequiredWithoutActivitiesNestedInput = {
+  create?: Prisma.XOR<Prisma.ResearchCreateWithoutActivitiesInput, Prisma.ResearchUncheckedCreateWithoutActivitiesInput>
+  connectOrCreate?: Prisma.ResearchCreateOrConnectWithoutActivitiesInput
+  upsert?: Prisma.ResearchUpsertWithoutActivitiesInput
+  connect?: Prisma.ResearchWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.ResearchUpdateToOneWithWhereWithoutActivitiesInput, Prisma.ResearchUpdateWithoutActivitiesInput>, Prisma.ResearchUncheckedUpdateWithoutActivitiesInput>
 }
 
 export type ResearchCreateNestedOneWithoutAlgorithmInput = {
@@ -552,40 +622,152 @@ export type ResearchUncheckedUpdateOneWithoutAlgorithmPropagationNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.ResearchUpdateToOneWithWhereWithoutAlgorithmPropagationInput, Prisma.ResearchUpdateWithoutAlgorithmPropagationInput>, Prisma.ResearchUncheckedUpdateWithoutAlgorithmPropagationInput>
 }
 
-export type ResearchCreateNestedOneWithoutTabsInput = {
-  create?: Prisma.XOR<Prisma.ResearchCreateWithoutTabsInput, Prisma.ResearchUncheckedCreateWithoutTabsInput>
-  connectOrCreate?: Prisma.ResearchCreateOrConnectWithoutTabsInput
-  connect?: Prisma.ResearchWhereUniqueInput
+export type EnumProjectStatusFieldUpdateOperationsInput = {
+  set?: $Enums.ProjectStatus
 }
 
-export type ResearchUpdateOneRequiredWithoutTabsNestedInput = {
-  create?: Prisma.XOR<Prisma.ResearchCreateWithoutTabsInput, Prisma.ResearchUncheckedCreateWithoutTabsInput>
-  connectOrCreate?: Prisma.ResearchCreateOrConnectWithoutTabsInput
-  upsert?: Prisma.ResearchUpsertWithoutTabsInput
-  connect?: Prisma.ResearchWhereUniqueInput
-  update?: Prisma.XOR<Prisma.XOR<Prisma.ResearchUpdateToOneWithWhereWithoutTabsInput, Prisma.ResearchUpdateWithoutTabsInput>, Prisma.ResearchUncheckedUpdateWithoutTabsInput>
+export type NullableIntFieldUpdateOperationsInput = {
+  set?: number | null
+  increment?: number
+  decrement?: number
+  multiply?: number
+  divide?: number
+}
+
+export type ResearchCreateNestedManyWithoutUserInput = {
+  create?: Prisma.XOR<Prisma.ResearchCreateWithoutUserInput, Prisma.ResearchUncheckedCreateWithoutUserInput> | Prisma.ResearchCreateWithoutUserInput[] | Prisma.ResearchUncheckedCreateWithoutUserInput[]
+  connectOrCreate?: Prisma.ResearchCreateOrConnectWithoutUserInput | Prisma.ResearchCreateOrConnectWithoutUserInput[]
+  createMany?: Prisma.ResearchCreateManyUserInputEnvelope
+  connect?: Prisma.ResearchWhereUniqueInput | Prisma.ResearchWhereUniqueInput[]
+}
+
+export type ResearchUncheckedCreateNestedManyWithoutUserInput = {
+  create?: Prisma.XOR<Prisma.ResearchCreateWithoutUserInput, Prisma.ResearchUncheckedCreateWithoutUserInput> | Prisma.ResearchCreateWithoutUserInput[] | Prisma.ResearchUncheckedCreateWithoutUserInput[]
+  connectOrCreate?: Prisma.ResearchCreateOrConnectWithoutUserInput | Prisma.ResearchCreateOrConnectWithoutUserInput[]
+  createMany?: Prisma.ResearchCreateManyUserInputEnvelope
+  connect?: Prisma.ResearchWhereUniqueInput | Prisma.ResearchWhereUniqueInput[]
+}
+
+export type ResearchUpdateManyWithoutUserNestedInput = {
+  create?: Prisma.XOR<Prisma.ResearchCreateWithoutUserInput, Prisma.ResearchUncheckedCreateWithoutUserInput> | Prisma.ResearchCreateWithoutUserInput[] | Prisma.ResearchUncheckedCreateWithoutUserInput[]
+  connectOrCreate?: Prisma.ResearchCreateOrConnectWithoutUserInput | Prisma.ResearchCreateOrConnectWithoutUserInput[]
+  upsert?: Prisma.ResearchUpsertWithWhereUniqueWithoutUserInput | Prisma.ResearchUpsertWithWhereUniqueWithoutUserInput[]
+  createMany?: Prisma.ResearchCreateManyUserInputEnvelope
+  set?: Prisma.ResearchWhereUniqueInput | Prisma.ResearchWhereUniqueInput[]
+  disconnect?: Prisma.ResearchWhereUniqueInput | Prisma.ResearchWhereUniqueInput[]
+  delete?: Prisma.ResearchWhereUniqueInput | Prisma.ResearchWhereUniqueInput[]
+  connect?: Prisma.ResearchWhereUniqueInput | Prisma.ResearchWhereUniqueInput[]
+  update?: Prisma.ResearchUpdateWithWhereUniqueWithoutUserInput | Prisma.ResearchUpdateWithWhereUniqueWithoutUserInput[]
+  updateMany?: Prisma.ResearchUpdateManyWithWhereWithoutUserInput | Prisma.ResearchUpdateManyWithWhereWithoutUserInput[]
+  deleteMany?: Prisma.ResearchScalarWhereInput | Prisma.ResearchScalarWhereInput[]
+}
+
+export type ResearchUncheckedUpdateManyWithoutUserNestedInput = {
+  create?: Prisma.XOR<Prisma.ResearchCreateWithoutUserInput, Prisma.ResearchUncheckedCreateWithoutUserInput> | Prisma.ResearchCreateWithoutUserInput[] | Prisma.ResearchUncheckedCreateWithoutUserInput[]
+  connectOrCreate?: Prisma.ResearchCreateOrConnectWithoutUserInput | Prisma.ResearchCreateOrConnectWithoutUserInput[]
+  upsert?: Prisma.ResearchUpsertWithWhereUniqueWithoutUserInput | Prisma.ResearchUpsertWithWhereUniqueWithoutUserInput[]
+  createMany?: Prisma.ResearchCreateManyUserInputEnvelope
+  set?: Prisma.ResearchWhereUniqueInput | Prisma.ResearchWhereUniqueInput[]
+  disconnect?: Prisma.ResearchWhereUniqueInput | Prisma.ResearchWhereUniqueInput[]
+  delete?: Prisma.ResearchWhereUniqueInput | Prisma.ResearchWhereUniqueInput[]
+  connect?: Prisma.ResearchWhereUniqueInput | Prisma.ResearchWhereUniqueInput[]
+  update?: Prisma.ResearchUpdateWithWhereUniqueWithoutUserInput | Prisma.ResearchUpdateWithWhereUniqueWithoutUserInput[]
+  updateMany?: Prisma.ResearchUpdateManyWithWhereWithoutUserInput | Prisma.ResearchUpdateManyWithWhereWithoutUserInput[]
+  deleteMany?: Prisma.ResearchScalarWhereInput | Prisma.ResearchScalarWhereInput[]
+}
+
+export type ResearchCreateWithoutActivitiesInput = {
+  id?: string
+  title: string
+  type: number
+  status?: $Enums.ProjectStatus
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  user: Prisma.UserCreateNestedOneWithoutResearchInput
+  algorithm?: Prisma.AlgorithmCreateNestedOneWithoutResearchInput
+  algorithmDelta?: Prisma.AlgorithmDeltaCreateNestedOneWithoutResearchInput
+  algorithmPropagation?: Prisma.AlgorithmPropagationCreateNestedOneWithoutResearchInput
+}
+
+export type ResearchUncheckedCreateWithoutActivitiesInput = {
+  id?: string
+  title: string
+  type: number
+  status?: $Enums.ProjectStatus
+  userId: string
+  algorithmId?: number | null
+  algorithmDeltaId?: number | null
+  algorithmPropagationId?: number | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+}
+
+export type ResearchCreateOrConnectWithoutActivitiesInput = {
+  where: Prisma.ResearchWhereUniqueInput
+  create: Prisma.XOR<Prisma.ResearchCreateWithoutActivitiesInput, Prisma.ResearchUncheckedCreateWithoutActivitiesInput>
+}
+
+export type ResearchUpsertWithoutActivitiesInput = {
+  update: Prisma.XOR<Prisma.ResearchUpdateWithoutActivitiesInput, Prisma.ResearchUncheckedUpdateWithoutActivitiesInput>
+  create: Prisma.XOR<Prisma.ResearchCreateWithoutActivitiesInput, Prisma.ResearchUncheckedCreateWithoutActivitiesInput>
+  where?: Prisma.ResearchWhereInput
+}
+
+export type ResearchUpdateToOneWithWhereWithoutActivitiesInput = {
+  where?: Prisma.ResearchWhereInput
+  data: Prisma.XOR<Prisma.ResearchUpdateWithoutActivitiesInput, Prisma.ResearchUncheckedUpdateWithoutActivitiesInput>
+}
+
+export type ResearchUpdateWithoutActivitiesInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  title?: Prisma.StringFieldUpdateOperationsInput | string
+  type?: Prisma.IntFieldUpdateOperationsInput | number
+  status?: Prisma.EnumProjectStatusFieldUpdateOperationsInput | $Enums.ProjectStatus
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  user?: Prisma.UserUpdateOneRequiredWithoutResearchNestedInput
+  algorithm?: Prisma.AlgorithmUpdateOneWithoutResearchNestedInput
+  algorithmDelta?: Prisma.AlgorithmDeltaUpdateOneWithoutResearchNestedInput
+  algorithmPropagation?: Prisma.AlgorithmPropagationUpdateOneWithoutResearchNestedInput
+}
+
+export type ResearchUncheckedUpdateWithoutActivitiesInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  title?: Prisma.StringFieldUpdateOperationsInput | string
+  type?: Prisma.IntFieldUpdateOperationsInput | number
+  status?: Prisma.EnumProjectStatusFieldUpdateOperationsInput | $Enums.ProjectStatus
+  userId?: Prisma.StringFieldUpdateOperationsInput | string
+  algorithmId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  algorithmDeltaId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  algorithmPropagationId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
 export type ResearchCreateWithoutAlgorithmInput = {
   id?: string
   title: string
   type: number
+  status?: $Enums.ProjectStatus
   createdAt?: Date | string
   updatedAt?: Date | string
+  user: Prisma.UserCreateNestedOneWithoutResearchInput
   algorithmDelta?: Prisma.AlgorithmDeltaCreateNestedOneWithoutResearchInput
   algorithmPropagation?: Prisma.AlgorithmPropagationCreateNestedOneWithoutResearchInput
-  tabs?: Prisma.ResearchTabCreateNestedManyWithoutResearchInput
+  activities?: Prisma.ActivityCreateNestedManyWithoutResearchInput
 }
 
 export type ResearchUncheckedCreateWithoutAlgorithmInput = {
   id?: string
   title: string
   type: number
+  status?: $Enums.ProjectStatus
+  userId: string
   algorithmDeltaId?: number | null
   algorithmPropagationId?: number | null
   createdAt?: Date | string
   updatedAt?: Date | string
-  tabs?: Prisma.ResearchTabUncheckedCreateNestedManyWithoutResearchInput
+  activities?: Prisma.ActivityUncheckedCreateNestedManyWithoutResearchInput
 }
 
 export type ResearchCreateOrConnectWithoutAlgorithmInput = {
@@ -608,44 +790,52 @@ export type ResearchUpdateWithoutAlgorithmInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   title?: Prisma.StringFieldUpdateOperationsInput | string
   type?: Prisma.IntFieldUpdateOperationsInput | number
+  status?: Prisma.EnumProjectStatusFieldUpdateOperationsInput | $Enums.ProjectStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  user?: Prisma.UserUpdateOneRequiredWithoutResearchNestedInput
   algorithmDelta?: Prisma.AlgorithmDeltaUpdateOneWithoutResearchNestedInput
   algorithmPropagation?: Prisma.AlgorithmPropagationUpdateOneWithoutResearchNestedInput
-  tabs?: Prisma.ResearchTabUpdateManyWithoutResearchNestedInput
+  activities?: Prisma.ActivityUpdateManyWithoutResearchNestedInput
 }
 
 export type ResearchUncheckedUpdateWithoutAlgorithmInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   title?: Prisma.StringFieldUpdateOperationsInput | string
   type?: Prisma.IntFieldUpdateOperationsInput | number
+  status?: Prisma.EnumProjectStatusFieldUpdateOperationsInput | $Enums.ProjectStatus
+  userId?: Prisma.StringFieldUpdateOperationsInput | string
   algorithmDeltaId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   algorithmPropagationId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  tabs?: Prisma.ResearchTabUncheckedUpdateManyWithoutResearchNestedInput
+  activities?: Prisma.ActivityUncheckedUpdateManyWithoutResearchNestedInput
 }
 
 export type ResearchCreateWithoutAlgorithmDeltaInput = {
   id?: string
   title: string
   type: number
+  status?: $Enums.ProjectStatus
   createdAt?: Date | string
   updatedAt?: Date | string
+  user: Prisma.UserCreateNestedOneWithoutResearchInput
   algorithm?: Prisma.AlgorithmCreateNestedOneWithoutResearchInput
   algorithmPropagation?: Prisma.AlgorithmPropagationCreateNestedOneWithoutResearchInput
-  tabs?: Prisma.ResearchTabCreateNestedManyWithoutResearchInput
+  activities?: Prisma.ActivityCreateNestedManyWithoutResearchInput
 }
 
 export type ResearchUncheckedCreateWithoutAlgorithmDeltaInput = {
   id?: string
   title: string
   type: number
+  status?: $Enums.ProjectStatus
+  userId: string
   algorithmId?: number | null
   algorithmPropagationId?: number | null
   createdAt?: Date | string
   updatedAt?: Date | string
-  tabs?: Prisma.ResearchTabUncheckedCreateNestedManyWithoutResearchInput
+  activities?: Prisma.ActivityUncheckedCreateNestedManyWithoutResearchInput
 }
 
 export type ResearchCreateOrConnectWithoutAlgorithmDeltaInput = {
@@ -668,44 +858,52 @@ export type ResearchUpdateWithoutAlgorithmDeltaInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   title?: Prisma.StringFieldUpdateOperationsInput | string
   type?: Prisma.IntFieldUpdateOperationsInput | number
+  status?: Prisma.EnumProjectStatusFieldUpdateOperationsInput | $Enums.ProjectStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  user?: Prisma.UserUpdateOneRequiredWithoutResearchNestedInput
   algorithm?: Prisma.AlgorithmUpdateOneWithoutResearchNestedInput
   algorithmPropagation?: Prisma.AlgorithmPropagationUpdateOneWithoutResearchNestedInput
-  tabs?: Prisma.ResearchTabUpdateManyWithoutResearchNestedInput
+  activities?: Prisma.ActivityUpdateManyWithoutResearchNestedInput
 }
 
 export type ResearchUncheckedUpdateWithoutAlgorithmDeltaInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   title?: Prisma.StringFieldUpdateOperationsInput | string
   type?: Prisma.IntFieldUpdateOperationsInput | number
+  status?: Prisma.EnumProjectStatusFieldUpdateOperationsInput | $Enums.ProjectStatus
+  userId?: Prisma.StringFieldUpdateOperationsInput | string
   algorithmId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   algorithmPropagationId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  tabs?: Prisma.ResearchTabUncheckedUpdateManyWithoutResearchNestedInput
+  activities?: Prisma.ActivityUncheckedUpdateManyWithoutResearchNestedInput
 }
 
 export type ResearchCreateWithoutAlgorithmPropagationInput = {
   id?: string
   title: string
   type: number
+  status?: $Enums.ProjectStatus
   createdAt?: Date | string
   updatedAt?: Date | string
+  user: Prisma.UserCreateNestedOneWithoutResearchInput
   algorithm?: Prisma.AlgorithmCreateNestedOneWithoutResearchInput
   algorithmDelta?: Prisma.AlgorithmDeltaCreateNestedOneWithoutResearchInput
-  tabs?: Prisma.ResearchTabCreateNestedManyWithoutResearchInput
+  activities?: Prisma.ActivityCreateNestedManyWithoutResearchInput
 }
 
 export type ResearchUncheckedCreateWithoutAlgorithmPropagationInput = {
   id?: string
   title: string
   type: number
+  status?: $Enums.ProjectStatus
+  userId: string
   algorithmId?: number | null
   algorithmDeltaId?: number | null
   createdAt?: Date | string
   updatedAt?: Date | string
-  tabs?: Prisma.ResearchTabUncheckedCreateNestedManyWithoutResearchInput
+  activities?: Prisma.ActivityUncheckedCreateNestedManyWithoutResearchInput
 }
 
 export type ResearchCreateOrConnectWithoutAlgorithmPropagationInput = {
@@ -728,39 +926,101 @@ export type ResearchUpdateWithoutAlgorithmPropagationInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   title?: Prisma.StringFieldUpdateOperationsInput | string
   type?: Prisma.IntFieldUpdateOperationsInput | number
+  status?: Prisma.EnumProjectStatusFieldUpdateOperationsInput | $Enums.ProjectStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  user?: Prisma.UserUpdateOneRequiredWithoutResearchNestedInput
   algorithm?: Prisma.AlgorithmUpdateOneWithoutResearchNestedInput
   algorithmDelta?: Prisma.AlgorithmDeltaUpdateOneWithoutResearchNestedInput
-  tabs?: Prisma.ResearchTabUpdateManyWithoutResearchNestedInput
+  activities?: Prisma.ActivityUpdateManyWithoutResearchNestedInput
 }
 
 export type ResearchUncheckedUpdateWithoutAlgorithmPropagationInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   title?: Prisma.StringFieldUpdateOperationsInput | string
   type?: Prisma.IntFieldUpdateOperationsInput | number
+  status?: Prisma.EnumProjectStatusFieldUpdateOperationsInput | $Enums.ProjectStatus
+  userId?: Prisma.StringFieldUpdateOperationsInput | string
   algorithmId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   algorithmDeltaId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  tabs?: Prisma.ResearchTabUncheckedUpdateManyWithoutResearchNestedInput
+  activities?: Prisma.ActivityUncheckedUpdateManyWithoutResearchNestedInput
 }
 
-export type ResearchCreateWithoutTabsInput = {
+export type ResearchCreateWithoutUserInput = {
   id?: string
   title: string
   type: number
+  status?: $Enums.ProjectStatus
   createdAt?: Date | string
   updatedAt?: Date | string
   algorithm?: Prisma.AlgorithmCreateNestedOneWithoutResearchInput
   algorithmDelta?: Prisma.AlgorithmDeltaCreateNestedOneWithoutResearchInput
   algorithmPropagation?: Prisma.AlgorithmPropagationCreateNestedOneWithoutResearchInput
+  activities?: Prisma.ActivityCreateNestedManyWithoutResearchInput
 }
 
-export type ResearchUncheckedCreateWithoutTabsInput = {
+export type ResearchUncheckedCreateWithoutUserInput = {
   id?: string
   title: string
   type: number
+  status?: $Enums.ProjectStatus
+  algorithmId?: number | null
+  algorithmDeltaId?: number | null
+  algorithmPropagationId?: number | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  activities?: Prisma.ActivityUncheckedCreateNestedManyWithoutResearchInput
+}
+
+export type ResearchCreateOrConnectWithoutUserInput = {
+  where: Prisma.ResearchWhereUniqueInput
+  create: Prisma.XOR<Prisma.ResearchCreateWithoutUserInput, Prisma.ResearchUncheckedCreateWithoutUserInput>
+}
+
+export type ResearchCreateManyUserInputEnvelope = {
+  data: Prisma.ResearchCreateManyUserInput | Prisma.ResearchCreateManyUserInput[]
+  skipDuplicates?: boolean
+}
+
+export type ResearchUpsertWithWhereUniqueWithoutUserInput = {
+  where: Prisma.ResearchWhereUniqueInput
+  update: Prisma.XOR<Prisma.ResearchUpdateWithoutUserInput, Prisma.ResearchUncheckedUpdateWithoutUserInput>
+  create: Prisma.XOR<Prisma.ResearchCreateWithoutUserInput, Prisma.ResearchUncheckedCreateWithoutUserInput>
+}
+
+export type ResearchUpdateWithWhereUniqueWithoutUserInput = {
+  where: Prisma.ResearchWhereUniqueInput
+  data: Prisma.XOR<Prisma.ResearchUpdateWithoutUserInput, Prisma.ResearchUncheckedUpdateWithoutUserInput>
+}
+
+export type ResearchUpdateManyWithWhereWithoutUserInput = {
+  where: Prisma.ResearchScalarWhereInput
+  data: Prisma.XOR<Prisma.ResearchUpdateManyMutationInput, Prisma.ResearchUncheckedUpdateManyWithoutUserInput>
+}
+
+export type ResearchScalarWhereInput = {
+  AND?: Prisma.ResearchScalarWhereInput | Prisma.ResearchScalarWhereInput[]
+  OR?: Prisma.ResearchScalarWhereInput[]
+  NOT?: Prisma.ResearchScalarWhereInput | Prisma.ResearchScalarWhereInput[]
+  id?: Prisma.StringFilter<"Research"> | string
+  title?: Prisma.StringFilter<"Research"> | string
+  type?: Prisma.IntFilter<"Research"> | number
+  status?: Prisma.EnumProjectStatusFilter<"Research"> | $Enums.ProjectStatus
+  userId?: Prisma.StringFilter<"Research"> | string
+  algorithmId?: Prisma.IntNullableFilter<"Research"> | number | null
+  algorithmDeltaId?: Prisma.IntNullableFilter<"Research"> | number | null
+  algorithmPropagationId?: Prisma.IntNullableFilter<"Research"> | number | null
+  createdAt?: Prisma.DateTimeFilter<"Research"> | Date | string
+  updatedAt?: Prisma.DateTimeFilter<"Research"> | Date | string
+}
+
+export type ResearchCreateManyUserInput = {
+  id?: string
+  title: string
+  type: number
+  status?: $Enums.ProjectStatus
   algorithmId?: number | null
   algorithmDeltaId?: number | null
   algorithmPropagationId?: number | null
@@ -768,37 +1028,37 @@ export type ResearchUncheckedCreateWithoutTabsInput = {
   updatedAt?: Date | string
 }
 
-export type ResearchCreateOrConnectWithoutTabsInput = {
-  where: Prisma.ResearchWhereUniqueInput
-  create: Prisma.XOR<Prisma.ResearchCreateWithoutTabsInput, Prisma.ResearchUncheckedCreateWithoutTabsInput>
-}
-
-export type ResearchUpsertWithoutTabsInput = {
-  update: Prisma.XOR<Prisma.ResearchUpdateWithoutTabsInput, Prisma.ResearchUncheckedUpdateWithoutTabsInput>
-  create: Prisma.XOR<Prisma.ResearchCreateWithoutTabsInput, Prisma.ResearchUncheckedCreateWithoutTabsInput>
-  where?: Prisma.ResearchWhereInput
-}
-
-export type ResearchUpdateToOneWithWhereWithoutTabsInput = {
-  where?: Prisma.ResearchWhereInput
-  data: Prisma.XOR<Prisma.ResearchUpdateWithoutTabsInput, Prisma.ResearchUncheckedUpdateWithoutTabsInput>
-}
-
-export type ResearchUpdateWithoutTabsInput = {
+export type ResearchUpdateWithoutUserInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   title?: Prisma.StringFieldUpdateOperationsInput | string
   type?: Prisma.IntFieldUpdateOperationsInput | number
+  status?: Prisma.EnumProjectStatusFieldUpdateOperationsInput | $Enums.ProjectStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   algorithm?: Prisma.AlgorithmUpdateOneWithoutResearchNestedInput
   algorithmDelta?: Prisma.AlgorithmDeltaUpdateOneWithoutResearchNestedInput
   algorithmPropagation?: Prisma.AlgorithmPropagationUpdateOneWithoutResearchNestedInput
+  activities?: Prisma.ActivityUpdateManyWithoutResearchNestedInput
 }
 
-export type ResearchUncheckedUpdateWithoutTabsInput = {
+export type ResearchUncheckedUpdateWithoutUserInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   title?: Prisma.StringFieldUpdateOperationsInput | string
   type?: Prisma.IntFieldUpdateOperationsInput | number
+  status?: Prisma.EnumProjectStatusFieldUpdateOperationsInput | $Enums.ProjectStatus
+  algorithmId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  algorithmDeltaId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  algorithmPropagationId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  activities?: Prisma.ActivityUncheckedUpdateManyWithoutResearchNestedInput
+}
+
+export type ResearchUncheckedUpdateManyWithoutUserInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  title?: Prisma.StringFieldUpdateOperationsInput | string
+  type?: Prisma.IntFieldUpdateOperationsInput | number
+  status?: Prisma.EnumProjectStatusFieldUpdateOperationsInput | $Enums.ProjectStatus
   algorithmId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   algorithmDeltaId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   algorithmPropagationId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
@@ -812,11 +1072,11 @@ export type ResearchUncheckedUpdateWithoutTabsInput = {
  */
 
 export type ResearchCountOutputType = {
-  tabs: number
+  activities: number
 }
 
 export type ResearchCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  tabs?: boolean | ResearchCountOutputTypeCountTabsArgs
+  activities?: boolean | ResearchCountOutputTypeCountActivitiesArgs
 }
 
 /**
@@ -832,8 +1092,8 @@ export type ResearchCountOutputTypeDefaultArgs<ExtArgs extends runtime.Types.Ext
 /**
  * ResearchCountOutputType without action
  */
-export type ResearchCountOutputTypeCountTabsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-  where?: Prisma.ResearchTabWhereInput
+export type ResearchCountOutputTypeCountActivitiesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.ActivityWhereInput
 }
 
 
@@ -841,15 +1101,18 @@ export type ResearchSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs
   id?: boolean
   title?: boolean
   type?: boolean
+  status?: boolean
+  userId?: boolean
   algorithmId?: boolean
   algorithmDeltaId?: boolean
   algorithmPropagationId?: boolean
   createdAt?: boolean
   updatedAt?: boolean
+  user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   algorithm?: boolean | Prisma.Research$algorithmArgs<ExtArgs>
   algorithmDelta?: boolean | Prisma.Research$algorithmDeltaArgs<ExtArgs>
   algorithmPropagation?: boolean | Prisma.Research$algorithmPropagationArgs<ExtArgs>
-  tabs?: boolean | Prisma.Research$tabsArgs<ExtArgs>
+  activities?: boolean | Prisma.Research$activitiesArgs<ExtArgs>
   _count?: boolean | Prisma.ResearchCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["research"]>
 
@@ -857,11 +1120,14 @@ export type ResearchSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Exte
   id?: boolean
   title?: boolean
   type?: boolean
+  status?: boolean
+  userId?: boolean
   algorithmId?: boolean
   algorithmDeltaId?: boolean
   algorithmPropagationId?: boolean
   createdAt?: boolean
   updatedAt?: boolean
+  user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   algorithm?: boolean | Prisma.Research$algorithmArgs<ExtArgs>
   algorithmDelta?: boolean | Prisma.Research$algorithmDeltaArgs<ExtArgs>
   algorithmPropagation?: boolean | Prisma.Research$algorithmPropagationArgs<ExtArgs>
@@ -871,11 +1137,14 @@ export type ResearchSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Exte
   id?: boolean
   title?: boolean
   type?: boolean
+  status?: boolean
+  userId?: boolean
   algorithmId?: boolean
   algorithmDeltaId?: boolean
   algorithmPropagationId?: boolean
   createdAt?: boolean
   updatedAt?: boolean
+  user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   algorithm?: boolean | Prisma.Research$algorithmArgs<ExtArgs>
   algorithmDelta?: boolean | Prisma.Research$algorithmDeltaArgs<ExtArgs>
   algorithmPropagation?: boolean | Prisma.Research$algorithmPropagationArgs<ExtArgs>
@@ -885,6 +1154,8 @@ export type ResearchSelectScalar = {
   id?: boolean
   title?: boolean
   type?: boolean
+  status?: boolean
+  userId?: boolean
   algorithmId?: boolean
   algorithmDeltaId?: boolean
   algorithmPropagationId?: boolean
@@ -892,20 +1163,23 @@ export type ResearchSelectScalar = {
   updatedAt?: boolean
 }
 
-export type ResearchOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "title" | "type" | "algorithmId" | "algorithmDeltaId" | "algorithmPropagationId" | "createdAt" | "updatedAt", ExtArgs["result"]["research"]>
+export type ResearchOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "title" | "type" | "status" | "userId" | "algorithmId" | "algorithmDeltaId" | "algorithmPropagationId" | "createdAt" | "updatedAt", ExtArgs["result"]["research"]>
 export type ResearchInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   algorithm?: boolean | Prisma.Research$algorithmArgs<ExtArgs>
   algorithmDelta?: boolean | Prisma.Research$algorithmDeltaArgs<ExtArgs>
   algorithmPropagation?: boolean | Prisma.Research$algorithmPropagationArgs<ExtArgs>
-  tabs?: boolean | Prisma.Research$tabsArgs<ExtArgs>
+  activities?: boolean | Prisma.Research$activitiesArgs<ExtArgs>
   _count?: boolean | Prisma.ResearchCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type ResearchIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   algorithm?: boolean | Prisma.Research$algorithmArgs<ExtArgs>
   algorithmDelta?: boolean | Prisma.Research$algorithmDeltaArgs<ExtArgs>
   algorithmPropagation?: boolean | Prisma.Research$algorithmPropagationArgs<ExtArgs>
 }
 export type ResearchIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   algorithm?: boolean | Prisma.Research$algorithmArgs<ExtArgs>
   algorithmDelta?: boolean | Prisma.Research$algorithmDeltaArgs<ExtArgs>
   algorithmPropagation?: boolean | Prisma.Research$algorithmPropagationArgs<ExtArgs>
@@ -914,15 +1188,18 @@ export type ResearchIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Ext
 export type $ResearchPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "Research"
   objects: {
+    user: Prisma.$UserPayload<ExtArgs>
     algorithm: Prisma.$AlgorithmPayload<ExtArgs> | null
     algorithmDelta: Prisma.$AlgorithmDeltaPayload<ExtArgs> | null
     algorithmPropagation: Prisma.$AlgorithmPropagationPayload<ExtArgs> | null
-    tabs: Prisma.$ResearchTabPayload<ExtArgs>[]
+    activities: Prisma.$ActivityPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
     title: string
     type: number
+    status: $Enums.ProjectStatus
+    userId: string
     algorithmId: number | null
     algorithmDeltaId: number | null
     algorithmPropagationId: number | null
@@ -1322,10 +1599,11 @@ readonly fields: ResearchFieldRefs;
  */
 export interface Prisma__ResearchClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
+  user<T extends Prisma.UserDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.UserDefaultArgs<ExtArgs>>): Prisma.Prisma__UserClient<runtime.Types.Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   algorithm<T extends Prisma.Research$algorithmArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Research$algorithmArgs<ExtArgs>>): Prisma.Prisma__AlgorithmClient<runtime.Types.Result.GetResult<Prisma.$AlgorithmPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   algorithmDelta<T extends Prisma.Research$algorithmDeltaArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Research$algorithmDeltaArgs<ExtArgs>>): Prisma.Prisma__AlgorithmDeltaClient<runtime.Types.Result.GetResult<Prisma.$AlgorithmDeltaPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   algorithmPropagation<T extends Prisma.Research$algorithmPropagationArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Research$algorithmPropagationArgs<ExtArgs>>): Prisma.Prisma__AlgorithmPropagationClient<runtime.Types.Result.GetResult<Prisma.$AlgorithmPropagationPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
-  tabs<T extends Prisma.Research$tabsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Research$tabsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ResearchTabPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  activities<T extends Prisma.Research$activitiesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Research$activitiesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ActivityPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -1358,6 +1636,8 @@ export interface ResearchFieldRefs {
   readonly id: Prisma.FieldRef<"Research", 'String'>
   readonly title: Prisma.FieldRef<"Research", 'String'>
   readonly type: Prisma.FieldRef<"Research", 'Int'>
+  readonly status: Prisma.FieldRef<"Research", 'ProjectStatus'>
+  readonly userId: Prisma.FieldRef<"Research", 'String'>
   readonly algorithmId: Prisma.FieldRef<"Research", 'Int'>
   readonly algorithmDeltaId: Prisma.FieldRef<"Research", 'Int'>
   readonly algorithmPropagationId: Prisma.FieldRef<"Research", 'Int'>
@@ -1816,27 +2096,27 @@ export type Research$algorithmPropagationArgs<ExtArgs extends runtime.Types.Exte
 }
 
 /**
- * Research.tabs
+ * Research.activities
  */
-export type Research$tabsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+export type Research$activitiesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   /**
-   * Select specific fields to fetch from the ResearchTab
+   * Select specific fields to fetch from the Activity
    */
-  select?: Prisma.ResearchTabSelect<ExtArgs> | null
+  select?: Prisma.ActivitySelect<ExtArgs> | null
   /**
-   * Omit specific fields from the ResearchTab
+   * Omit specific fields from the Activity
    */
-  omit?: Prisma.ResearchTabOmit<ExtArgs> | null
+  omit?: Prisma.ActivityOmit<ExtArgs> | null
   /**
    * Choose, which related nodes to fetch as well
    */
-  include?: Prisma.ResearchTabInclude<ExtArgs> | null
-  where?: Prisma.ResearchTabWhereInput
-  orderBy?: Prisma.ResearchTabOrderByWithRelationInput | Prisma.ResearchTabOrderByWithRelationInput[]
-  cursor?: Prisma.ResearchTabWhereUniqueInput
+  include?: Prisma.ActivityInclude<ExtArgs> | null
+  where?: Prisma.ActivityWhereInput
+  orderBy?: Prisma.ActivityOrderByWithRelationInput | Prisma.ActivityOrderByWithRelationInput[]
+  cursor?: Prisma.ActivityWhereUniqueInput
   take?: number
   skip?: number
-  distinct?: Prisma.ResearchTabScalarFieldEnum | Prisma.ResearchTabScalarFieldEnum[]
+  distinct?: Prisma.ActivityScalarFieldEnum | Prisma.ActivityScalarFieldEnum[]
 }
 
 /**

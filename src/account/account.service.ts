@@ -14,12 +14,16 @@ export class AccountService {
     res: Response,
   ) {
     if (password) {
-      const user = await this.prisma.user.findUniqueOrThrow({ where: { id: userId } });
+      const user = await this.prisma.user.findUniqueOrThrow({
+        where: { id: userId },
+      });
       const isValid = await verify(user.passwordHash, password);
       if (!isValid) throw new BadRequestException('Неверный пароль');
     }
 
-    const deletionScheduledFor = new Date(Date.now() + 30 * 24 * 60 * 60 * 1000);
+    const deletionScheduledFor = new Date(
+      Date.now() + 30 * 24 * 60 * 60 * 1000,
+    );
 
     await this.prisma.user.update({
       where: { id: userId },
@@ -45,7 +49,9 @@ export class AccountService {
       },
     });
     if (result.count > 0) {
-      console.log(`[Cron] Deleted ${result.count} accounts scheduled for deletion`);
+      console.log(
+        `[Cron] Deleted ${result.count} accounts scheduled for deletion`,
+      );
     }
   }
 }

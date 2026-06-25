@@ -1,7 +1,6 @@
 import { IsString } from 'class-validator';
 
-const STAGES = ['generation', 'training', 'quality', 'recognition'] as const;
-export type Stage = (typeof STAGES)[number];
+export type Stage = 'generation' | 'training' | 'quality' | 'recognition';
 
 export class NextStageDto {
   @IsString()

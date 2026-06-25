@@ -26,16 +26,23 @@ export class AuthService {
     private readonly configService: ConfigService,
     private readonly jwtService: JwtService,
   ) {
-    this.JWT_ACCESS_TOKEN = configService.getOrThrow<StringValue>('JWT_ACCESS_TOKEN_TTL');
-    this.JWT_REFRESH_TOKEN_SHORT = configService.getOrThrow<StringValue>('JWT_REFRESH_TOKEN_TTL_SHORT');
-    this.JWT_REFRESH_TOKEN_LONG = configService.getOrThrow<StringValue>('JWT_REFRESH_TOKEN_TTL_LONG');
+    this.JWT_ACCESS_TOKEN = configService.getOrThrow<StringValue>(
+      'JWT_ACCESS_TOKEN_TTL',
+    );
+    this.JWT_REFRESH_TOKEN_SHORT = configService.getOrThrow<StringValue>(
+      'JWT_REFRESH_TOKEN_TTL_SHORT',
+    );
+    this.JWT_REFRESH_TOKEN_LONG = configService.getOrThrow<StringValue>(
+      'JWT_REFRESH_TOKEN_TTL_LONG',
+    );
   }
 
   async register(dto: RegisterDto, res: Response, req: Request) {
     const { name, email, password } = dto;
 
     const exists = await this.prisma.user.findUnique({ where: { email } });
-    if (exists) throw new ConflictException('Пользователь с таким email уже существует');
+    if (exists)
+      throw new ConflictException('Пользователь с таким email уже существует');
 
     const passwordHash = await hash(password);
     const user = await this.prisma.user.create({
@@ -58,7 +65,8 @@ export class AuthService {
   }
 
   async refresh(refreshToken: string | undefined, res: Response) {
-    if (!refreshToken) throw new UnauthorizedException('Refresh token not found');
+    if (!refreshToken)
+      throw new UnauthorizedException('Refresh token not found');
 
     let payload: JwtPayload;
     try {
@@ -102,7 +110,9 @@ export class AuthService {
   }
 
   async changePassword(userId: string, dto: ChangePasswordDto) {
-    const user = await this.prisma.user.findUniqueOrThrow({ where: { id: userId } });
+    const user = await this.prisma.user.findUniqueOrThrow({
+      where: { id: userId },
+    });
 
     const isValid = await verify(user.passwordHash, dto.currentPassword);
     if (!isValid) throw new BadRequestException('Текущий пароль неверный');
@@ -127,7 +137,7 @@ export class AuthService {
     res: Response,
     req: Request,
   ) {
-    const uaStr = req.headers['user-agent'] as string | undefined;
+    const uaStr = req.headers['user-agent'];
     const ua = new UAParser(uaStr);
     const result = ua.getResult();
     const device = result.device.vendor
@@ -140,7 +150,12 @@ export class AuthService {
     const ip = forwarded?.split(',')[0]?.trim() ?? req.ip ?? null;
 
     const sessionId = randomUUID();
-    const { accessToken, newRefreshToken } = await this.generateTokens(userId, role, sessionId, rememberMe);
+    const { accessToken, newRefreshToken } = await this.generateTokens(
+      userId,
+      role,
+      sessionId,
+      rememberMe,
+    );
     const refreshTokenHash = await hash(newRefreshToken);
 
     await this.prisma.session.create({
@@ -160,9 +175,16 @@ export class AuthService {
     return { message: 'Success' };
   }
 
-  private async generateTokens(userId: string, role: string, sessionId: string, rememberMe: boolean) {
+  private async generateTokens(
+    userId: string,
+    role: string,
+    sessionId: string,
+    rememberMe: boolean,
+  ) {
     const payload: JwtPayload = { id: userId, role, sessionId };
-    const refreshTtl = rememberMe ? this.JWT_REFRESH_TOKEN_LONG : this.JWT_REFRESH_TOKEN_SHORT;
+    const refreshTtl = rememberMe
+      ? this.JWT_REFRESH_TOKEN_LONG
+      : this.JWT_REFRESH_TOKEN_SHORT;
 
     const [accessToken, newRefreshToken] = await Promise.all([
       this.jwtService.signAsync(payload, { expiresIn: this.JWT_ACCESS_TOKEN }),
@@ -172,13 +194,31 @@ export class AuthService {
     return { accessToken, newRefreshToken };
   }
 
-  private setCookies(res: Response, accessToken: string, refreshToken: string, rememberMe = false) {
-    const refreshTtl = rememberMe ? this.JWT_REFRESH_TOKEN_LONG : this.JWT_REFRESH_TOKEN_SHORT;
+  private setCookies(
+    res: Response,
+    accessToken: string,
+    refreshToken: string,
+    rememberMe = false,
+  ) {
+    const refreshTtl = rememberMe
+      ? this.JWT_REFRESH_TOKEN_LONG
+      : this.JWT_REFRESH_TOKEN_SHORT;
     const isProduction = process.env.NODE_ENV === 'production';
-    const base = { httpOnly: true, secure: isProduction, sameSite: 'lax' as const, path: '/' };
+    const base = {
+      httpOnly: true,
+      secure: isProduction,
+      sameSite: 'lax' as const,
+      path: '/',
+    };
 
-    res.cookie('access_token', accessToken, { ...base, maxAge: ms(this.JWT_ACCESS_TOKEN) });
-    res.cookie('refresh_token', refreshToken, { ...base, maxAge: ms(refreshTtl) });
+    res.cookie('access_token', accessToken, {
+      ...base,
+      maxAge: ms(this.JWT_ACCESS_TOKEN),
+    });
+    res.cookie('refresh_token', refreshToken, {
+      ...base,
+      maxAge: ms(refreshTtl),
+    });
   }
 
   private clearCookies(res: Response) {

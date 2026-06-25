@@ -109,7 +109,7 @@ export class AdminDocsController {
     @CurrentUser('id') authorId: string,
   ) {
     return this.adminDocsService.importDoc(
-      (file.buffer as Buffer).toString('utf-8'),
+      file.buffer.toString('utf-8'),
       authorId,
     );
   }

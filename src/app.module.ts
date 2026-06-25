@@ -6,7 +6,6 @@ import { AppService } from './app.service.js';
 import { PrismaModule } from './prisma/prisma.module.js';
 import { AuthModule } from './auth/auth.module.js';
 import { DashboardModule } from './dashboard/dashboard.module.js';
-import { ProjectsModule } from './projects/projects.module.js';
 import { ActivityModule } from './activity/activity.module.js';
 import { ProfileModule } from './profile/profile.module.js';
 import { SettingsModule } from './settings/settings.module.js';
@@ -26,7 +25,6 @@ import { ResearchModule } from './research/research.module.js';
     PrismaModule,
     AuthModule,
     DashboardModule,
-    ProjectsModule,
     ActivityModule,
     ProfileModule,
     SettingsModule,
