@@ -1,27 +1,43 @@
-model Doc {
-  id          String   @id @default(uuid())
-  slug        String   @unique
-  title       String
-  description String?
-  content     String
-  order       Int      @default(999)
-  published   Boolean  @default(false)
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
-  versions    DocVersion[]
-
-  @@index([slug])
-  @@index([published])
+enum DocSection {
+  BASICS
+  ALGORITHMS
+  ADVANCED
+  OTHER
 }
 
-model DocVersion {
-  id        String   @id @default(uuid())
-  docId     String
-  doc       Doc      @relation(fields: [docId], references: [id], onDelete: Cascade)
-  content   String
-  title     String
-  authorId  String?
-  createdAt DateTime @default(now())
+enum DocStatus {
+  DRAFT
+  REVIEW
+  PUBLISHED
+  ARCHIVED
+}
 
-  @@index([docId, createdAt])
+enum DocVisibility {
+  ALL
+  STUDENTS
+  TEACHERS
+}
+
+model Document {
+  id          String        @id @default(uuid())
+  title       String
+  section     DocSection    @default(OTHER)
+  status      DocStatus     @default(DRAFT)
+  visibility  DocVisibility @default(ALL)
+  authorId    String?
+  author      User?         @relation("DocAuthor", fields: [authorId], references: [id], onDelete: SetNull)
+  contentMd   String?       @db.Text
+  tags        String[]
+  views       Int           @default(0)
+  wordCount   Int           @default(0)
+  version     Int           @default(1)
+  publishedAt DateTime?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([section])
+  @@index([status])
+  @@index([authorId])
+  @@map("documents")
 }

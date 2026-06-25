@@ -1,13 +1,52 @@
+enum Role {
+  STUDENT
+  TEACHER
+  ADMIN
+}
+
+enum UserStatus {
+  ACTIVE
+  INACTIVE
+  BLOCKED
+}
+
+enum Theme {
+  LIGHT
+  DARK
+}
+
+enum Locale {
+  RU
+  EN
+}
+
 model User {
-  id         String   @id @default(uuid())
-  name       String
-  shortUrl   String?   @unique
-  email      String    @unique
-  avatarUrl  String?
-  password   String
+  id                   String      @id @default(uuid())
+  name                 String
+  email                String      @unique
+  emailVerified        Boolean     @default(false)
+  passwordHash         String
+  avatarUrl            String?
+  role                 Role        @default(STUDENT)
+  status               UserStatus  @default(ACTIVE)
+  group                String?
+  theme                Theme       @default(DARK)
+  locale               Locale      @default(RU)
+  passwordChangedAt    DateTime?
+  lastActiveAt         DateTime?
+  deletionRequestedAt  DateTime?
+  deletionScheduledFor DateTime?
 
-  createdAt  DateTime @default(now()) @map("created_at")
-  updatedAt  DateTime @updatedAt @map("updated_at")
+  projects    Project[]
+  activities  Activity[]
+  sessions    Session[]
+  authoredDocs Document[] @relation("DocAuthor")
 
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([role])
+  @@index([status])
+  @@index([group])
   @@map("users")
 }

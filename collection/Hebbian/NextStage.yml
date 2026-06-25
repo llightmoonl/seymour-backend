@@ -1,0 +1,21 @@
+info:
+  name: NextStage
+  type: http
+  seq: 5
+
+http:
+  method: PUT
+  url: "{{url}}/hebbian/nextStage"
+  body:
+    type: json
+    data: |-
+      {
+        "id": "5407b007-f1d1-4f4e-9e25-1de613974edc"
+      }
+  auth: inherit
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5
