@@ -3,6 +3,9 @@ import { NestFactory } from '@nestjs/core';
 import { ValidationPipe } from '@nestjs/common';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import cookieParser from 'cookie-parser';
+import { existsSync, mkdirSync } from 'fs';
+import { join } from 'path';
+import express from 'express';
 import { AppModule } from './app.module.js';
 
 async function bootstrap() {
@@ -12,6 +15,10 @@ async function bootstrap() {
     origin: process.env.CORS_ORIGIN || 'http://localhost:3000',
     credentials: true,
   });
+
+  const uploadsDir = join(process.cwd(), 'uploads', 'avatars');
+  if (!existsSync(uploadsDir)) mkdirSync(uploadsDir, { recursive: true });
+  app.use('/uploads', express.static(join(process.cwd(), 'uploads')));
 
   app.use(cookieParser());
 

@@ -1,17 +1,50 @@
-import { Body, Controller, Get, Patch, Post, UseGuards } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  FileTypeValidator,
+  Get,
+  MaxFileSizeValidator,
+  ParseFilePipe,
+  Patch,
+  Post,
+  UploadedFile,
+  UseGuards,
+  UseInterceptors,
+} from '@nestjs/common';
+import { FileInterceptor } from '@nestjs/platform-express';
+import { diskStorage } from 'multer';
+import { extname } from 'path';
 import { ProfileService } from './profile.service.js';
 import { UpdateProfileDto } from './dto/update-profile.dto.js';
 import { JwtAuthGuard } from '../auth/jwt-auth.guard.js';
 import { CurrentUser } from '../common/decorators/current-user.decorator.js';
-import { ApiBody, ApiCookieAuth, ApiTags } from '@nestjs/swagger';
+import {
+  ApiBody,
+  ApiConsumes,
+  ApiCookieAuth,
+  ApiProperty,
+  ApiTags,
+} from '@nestjs/swagger';
 import { IsString } from 'class-validator';
-import { ApiProperty } from '@nestjs/swagger';
 
 class VerifyTokenDto {
   @ApiProperty()
   @IsString()
   token: string;
 }
+
+class AvatarUploadDto {
+  @ApiProperty({ type: 'string', format: 'binary' })
+  file: Express.Multer.File;
+}
+
+const avatarStorage = diskStorage({
+  destination: 'uploads/avatars',
+  filename: (_req, file, cb) => {
+    const ext = extname(file.originalname);
+    cb(null, `${Date.now()}-${Math.random().toString(36).slice(2)}${ext}`);
+  },
+});
 
 @ApiTags('profile')
 @ApiCookieAuth('access_token')
@@ -31,6 +64,25 @@ export class ProfileController {
     @Body() dto: UpdateProfileDto,
   ) {
     return this.profileService.updateProfile(userId, dto);
+  }
+
+  @Post('avatar')
+  @ApiConsumes('multipart/form-data')
+  @ApiBody({ type: AvatarUploadDto })
+  @UseInterceptors(FileInterceptor('file', { storage: avatarStorage }))
+  uploadAvatar(
+    @CurrentUser('id') userId: string,
+    @UploadedFile(
+      new ParseFilePipe({
+        validators: [
+          new FileTypeValidator({ fileType: /image\/(jpeg|png|webp|gif)/ }),
+          new MaxFileSizeValidator({ maxSize: 5 * 1024 * 1024 }),
+        ],
+      }),
+    )
+    file: Express.Multer.File,
+  ) {
+    return this.profileService.updateAvatar(userId, file.filename);
   }
 
   @Post('email/verify/request')
